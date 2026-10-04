@@ -251,8 +251,15 @@ const CFG = {
   API: 'https://str1ker-backend-production.up.railway.app',
   LOOTLABS: 'https://links.lootlabs.gg/s?w1RValf6',
   KEY_LS: 'str1ker_key',
-  PUID_LS: 'str1ker_puid',
+    PUID_LS: 'str1ker_puid',
 };
+
+const BUILD = 'v3-2026-10-04';
+if (localStorage.getItem('str1ker_build') !== BUILD) {
+  localStorage.removeItem('str1ker_key');
+  localStorage.removeItem('str1ker_puid');
+  localStorage.setItem('str1ker_build', BUILD);
+}
 
 function getPUID() {
   let p = localStorage.getItem(CFG.PUID_LS);
