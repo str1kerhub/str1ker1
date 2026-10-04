@@ -1497,7 +1497,7 @@ let pollTimer = null;
 getKeyBtn.onclick = async () => {
   if (pollTimer) return;
 
-  const url = CFG.LOOTLABS + '&unique_id=' + encodeURIComponent(PUID);
+  const url = CFG.LOOTLABS + '&sub_id=' + encodeURIComponent(PUID);
   try { await navigator.clipboard.writeText(url); } catch(_) {}
   window.open(url, '_blank', 'noopener');
 
