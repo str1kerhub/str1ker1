@@ -1254,27 +1254,28 @@ function askConfirm(title, msg, onYes) {
   popup.querySelector('#pConfirm').onclick = () => { overlay.remove(); if (onYes) onYes(); };
 }
 
-function askPrompt(title, placeholder, onSubmit) {
-  const ex = document.querySelector('.popup-overlay'); if (ex) ex.remove();
-  const overlay = document.createElement('div'); overlay.className = 'popup-overlay';
-  const popup = document.createElement('div'); popup.className = 'popup';
-  popup.innerHTML = `
-    <div class="popup-icon">${icon('i-info','ico-lg')}</div>
-    <div class="popup-title">${title}</div>
-    <input class="popup-input" id="pInput" placeholder="${placeholder}" autocomplete="off">
-    <div class="popup-actions">
-      <button class="popup-btn cancel" id="pCancel">Cancel</button>
-      <button class="popup-btn confirm" id="pConfirm">Confirm</button>
+function showKeyPopup(key, onClose) {
+  const overlay = document.createElement('div');
+  overlay.className = 'popup-overlay';
+  overlay.innerHTML = `
+    <div class="popup" style="max-width:420px">
+      <div class="popup-icon" style="background:rgba(70,220,110,0.15);border-color:rgba(70,220,110,0.4);color:var(--green)">${icon('i-check','ico-lg')}</div>
+      <div class="popup-title">Sua key foi gerada!</div>
+      <div class="popup-msg">Copia ela pra guardar. Dura 12h e é renovada ao completar a task de novo.</div>
+      <input class="popup-input" id="keyResult" value="${key}" readonly style="font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:1.5px;text-align:center;color:var(--green);font-weight:700">
+      <div class="popup-actions">
+        <button class="popup-btn cancel" id="pCopy">Copiar</button>
+        <button class="popup-btn confirm" id="pOk">Entrar no Hub</button>
+      </div>
     </div>
   `;
-  overlay.appendChild(popup);
   document.body.appendChild(overlay);
-  const input = popup.querySelector('#pInput');
-  setTimeout(() => input.focus(), 100);
-  const submit = () => { const v = input.value.trim(); if (v && onSubmit) onSubmit(v); overlay.remove(); };
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); });
-  popup.querySelector('#pCancel').onclick = () => overlay.remove();
-  popup.querySelector('#pConfirm').onclick = submit;
+  const inp = overlay.querySelector('#keyResult');
+  overlay.querySelector('#pCopy').onclick = async () => {
+    try { await navigator.clipboard.writeText(key); showNotif('Key','Copiada pro clipboard','success'); }
+    catch(_) { inp.select(); document.execCommand('copy'); showNotif('Key','Copiada','success'); }
+  };
+  overlay.querySelector('#pOk').onclick = () => { overlay.remove(); if (onClose) onClose(); };
 }
 
 const AVATAR_KEY = 'str1ker_avatar_id';
@@ -1547,32 +1548,18 @@ resetKeyLink.onclick = () => {
 // ═══════════════════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════════════════
-applyScale(0.40);
-renderCats();
-renderTabs();
-renderCards();
-setAvatar(localStorage.getItem(AVATAR_KEY) || '');
-
-const savedScale = localStorage.getItem('str1ker_scale');
-if (savedScale) applyScale(parseInt(savedScale) / 100);
-
-// auto-check de key salva
+// check: backend já tem uma key esperando pra esse PUID?
 (async () => {
-  const saved = localStorage.getItem(CFG.KEY_LS) || localStorage.getItem('str1ker_key');
-  if (!saved) {
-    setStatus('Cole uma key ou clique em Pegar Key', 'info');
-    return;
-  }
-  keyInput.value = saved;
-  setStatus('Key salva encontrada — validando...', 'info');
-  const r = await apiValidate(saved);
-  if (r && r.valid) {
-    setStatus('Key salva válida! Carregando...', 'success');
-    setTimeout(startLoader, 500);
-  } else if (r === null) {
-    setStatus('Erro de conexão — cole a key manualmente', 'error');
-  } else {
-    setStatus('Key salva expirou — pegue uma nova', 'warn');
+  await new Promise(r => setTimeout(r, 400));
+  const r = await apiGetKey(PUID);
+  if (r && r.found && r.key) {
+    keyInput.value = r.key;
+    setStatus('Key encontrada! Gerando acesso...', 'success');
+    localStorage.setItem(CFG.KEY_LS, r.key);
+    showNotif('LootLabs','Key resgatada com sucesso','success');
+    setTimeout(() => {
+      showKeyPopup(r.key, () => startLoader());
+    }, 500);
   }
 })();
 </script>
