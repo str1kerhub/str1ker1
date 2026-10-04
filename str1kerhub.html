@@ -1352,8 +1352,10 @@ window.addEventListener('touchmove', e => { if (scaleDrag) scaleSet(e.touches[0]
 window.addEventListener('touchend', () => { scaleDrag = false; });
 
 document.getElementById('fab').onclick = () => {
-  const hidden = panelEl.style.display === 'none';
-  panelEl.style.display = hidden ? 'flex' : 'none';
+  const panel = document.getElementById('panel');
+  const isHidden = panel.style.display === 'none' || panel.style.display === '';
+  panel.style.display = isHidden ? 'flex' : 'none';
+  document.getElementById('fab').classList.toggle('show', !isHidden ? true : false);
 };
 
 // ═══════════════════════════════════════════════════════════════
