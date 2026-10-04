@@ -76,7 +76,10 @@ local function my_team() return LP.Team and LP.Team.Name or "None" end
 
 local function invoke(name, ...)
     if not CommF then return nil end
-    local ok, res = pcall(function() return CommF:InvokeServer(name, ...) end)
+    local args = { ... }
+    local ok, res = pcall(function()
+        return CommF:InvokeServer(name, table.unpack(args))
+    end)
     return ok and res or nil
 end
 
