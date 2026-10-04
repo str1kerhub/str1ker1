@@ -843,13 +843,25 @@ keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') keyBtn.click(
 let pollTimer = null;
 getKeyBtn.onclick = async () => {
   if (pollTimer) return;
+
+  let sessionToken = null;
   try {
-    await fetch(CFG.API + '/register', {
+    const reg = await fetch(CFG.API + '/register', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({puid: PUID})
     });
+    if (reg.ok) {
+      const regData = await reg.json();
+      sessionToken = regData.token;
+      sessionStorage.setItem('str1ker_token', sessionToken);
+    }
   } catch(_) {}
+
+  if (!sessionToken) {
+    setStatus('Erro ao registrar sessão', 'error');
+    return;
+  }
 
   const url = CFG.LOOTLABS + '&sub_id=' + encodeURIComponent(PUID);
   try { await navigator.clipboard.writeText(url); } catch(_) {}
@@ -864,7 +876,12 @@ getKeyBtn.onclick = async () => {
   pollTimer = setInterval(async () => {
     const el = Math.floor((Date.now() - start) / 1000);
     pollingText.textContent = `Aguardando task... (${el}s)`;
-    const r = await apiGetKeyByIP();
+    const tok = sessionStorage.getItem('str1ker_token') || '';
+    let r = null;
+    try {
+      const rr = await fetch(CFG.API + '/get-key-by-ip?token=' + encodeURIComponent(tok));
+      r = await rr.json();
+    } catch(_) {}
     if (r && r.found && r.key) {
       clearInterval(pollTimer); pollTimer = null;
       keyPolling.classList.remove('show');
@@ -883,7 +900,6 @@ getKeyBtn.onclick = async () => {
     }
   }, 3000);
 };
-
 resetKeyLink.onclick = () => {
   askConfirm('Reset','Apaga key e PUID?', () => {
     localStorage.removeItem(CFG.KEY_LS);
