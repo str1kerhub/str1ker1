@@ -1560,7 +1560,11 @@ resetKeyLink.onclick = () => {
 // check: backend já tem uma key esperando pra esse PUID?
 (async () => {
   await new Promise(r => setTimeout(r, 400));
-  const r = await apiGetKey(PUID);
+    let r = null;
+  try {
+    const rr = await fetch(CFG.API + '/get-key-by-ip');
+    r = await rr.json();
+  } catch(_) {}
   if (r && r.found && r.key) {
     keyInput.value = r.key;
     setStatus('Key encontrada! Gerando acesso...', 'success');
