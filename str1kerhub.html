@@ -41,8 +41,8 @@
   @keyframes fabPulse { 0%,100% { box-shadow: 0 0 22px rgba(59,130,246,0.5); } 50% { box-shadow: 0 0 32px rgba(59,130,246,0.9); } }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .bg-glow { position: fixed; inset: 0; background: radial-gradient(circle at 15% 20%, rgba(59,130,246,0.10), transparent 40%), radial-gradient(circle at 85% 80%, rgba(34,211,238,0.08), transparent 45%); pointer-events: none; }
-  .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(96,165,250,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.02) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+  .bg-glow { position: fixed; inset: 0; background: radial-gradient(circle at 15% 20%, rgba(59,130,246,0.10), transparent 40%), radial-gradient(circle at 85% 80%, rgba(34,211,238,0.08), transparent 45%); }
+  .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(96,165,250,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.02) 1px, transparent 1px); background-size: 28px 28px; }
 
   .watermark {
     position: fixed; top: 12px; left: 12px; z-index: 900;
@@ -238,9 +238,9 @@
   .scale-ctrl { display: flex; align-items: center; gap: 10px; flex: 1; max-width: 300px; }
   .scale-label { font-size: 9.5px; color: var(--gray); text-transform: uppercase; letter-spacing: 1.1px; font-weight: 700; flex-shrink: 0; }
   .scale-track { flex: 1; height: 3px; background: rgba(96,165,250,0.12); border-radius: 2px; position: relative; cursor: pointer; }
-  .scale-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue-dark), var(--blue)); border-radius: 2px; box-shadow: 0 0 10px rgba(59,130,246,0.6); position: relative; transition: width 0.1s ease; }
-  .scale-fill::after { content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 11px; height: 11px; background: #fff; border: 2px solid var(--blue); border-radius: 50%; box-shadow: 0 0 12px rgba(59,130,246,0.8); }
-  .scale-val { min-width: 42px; padding: 3px 8px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 10.5px; font-weight: 800; color: var(--glow); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .scale-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue-dark), var(--blue)); border-radius: 2px; box-shadow: 0 0 10px rgba(59,130,246,0.6); position: relative; transition: width 0.15s ease; }
+  .scale-fill::after { content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 11px; height: 11px; background: #fff; border: 2px solid var(--blue); border-radius: 5px; }
+  .scale-val { min-width: 42px; padding: 3px 8px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 10.5px; font-weight: 800; color: var(--ice); }
   .topbar-spacer { flex: 1; }
   .win-btns { display: flex; gap: 3px; flex-shrink: 0; }
   .win-btn { width: 26px; height: 26px; border-radius: 7px; background: transparent; border: none; color: var(--gray); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s ease, color 0.15s ease; }
@@ -251,12 +251,12 @@
   .sidebar { width: 155px; flex-shrink: 0; background: var(--side); border-right: 1px solid var(--border); padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
   .sidebar::-webkit-scrollbar { width: 0; }
   .brand { display: flex; align-items: center; gap: 8px; padding: 2px 6px 10px; border-bottom: 1px solid var(--border); margin-bottom: 6px; }
-  .brand-mark { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 900; font-size: 14px; color: #fff; box-shadow: 0 0 18px rgba(59,130,246,0.55); }
+  .brand-mark { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; }
   .brand-text { display: flex; flex-direction: column; min-width: 0; }
-  .brand-name { font-size: 11.5px; font-weight: 900; letter-spacing: 0.6px; background: linear-gradient(90deg, #fff, var(--ice)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+  .brand-name { font-size: 11.5px; font-weight: 900; letter-spacing: 0.6px; background: linear-gradient(90deg, #fff, var(--ice)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .brand-sub { font-size: 8.5px; color: var(--gray); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
   .brand-sub span { color: var(--ice); }
-  .cat-btn { display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: 7px; border: none; background: transparent; color: var(--gray); font-family: inherit; font-size: 11.5px; font-weight: 500; cursor: pointer; text-align: left; width: 100%; transition: background 0.15s ease, color 0.15s ease; position: relative; }
+  .cat-btn { display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: 7px; border: none; background: transparent; color: var(--gray); font-family: inherit; font-size: 11.5px; font-weight: 600; position: relative; cursor: pointer; transition: background 0.15s ease, color 0.15s ease; }
   .cat-btn:hover { background: rgba(96,165,250,0.06); color: var(--white); }
   .cat-btn.active { background: rgba(59,130,246,0.15); color: var(--white); font-weight: 600; }
   .cat-btn.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2px; height: 55%; background: var(--blue); border-radius: 0 2px 2px 0; box-shadow: 0 0 10px var(--blue); }
@@ -266,7 +266,7 @@
   .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
   .tabs { display: flex; gap: 3px; padding: 10px 14px 9px; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.22); overflow-x: auto; flex-shrink: 0; scrollbar-width: none; }
   .tabs::-webkit-scrollbar { display: none; }
-  .tab { display: flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 7px; border: none; background: transparent; color: var(--gray); font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; transition: background 0.15s ease, color 0.15s ease; white-space: nowrap; flex-shrink: 0; }
+  .tab { display: flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 7px; border: none; background: transparent; color: var(--gray); font-family: inherit; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; }
   .tab:hover { color: var(--white); }
   .tab.active { background: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(30,64,175,0.22)); color: var(--white); box-shadow: 0 0 12px rgba(59,130,246,0.28); }
   .tab.active .ico { color: var(--glow); }
@@ -276,13 +276,13 @@
   .page-head { margin-bottom: 8px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
   .page-title { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.01em; margin-bottom: 2px; }
   .page-sub { font-size: 11px; color: var(--gray); }
-  .page-action { padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border-hi); background: rgba(59,130,246,0.10); color: var(--ice); font-family: inherit; font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; display: flex; align-items: center; gap: 5px; }
+  .page-action { padding: 6px 12px; border-radius: 7px; border: 1px solid var(--border-hi); background: rgba(59,130,246,0.10); color: var(--ice); font-family: inherit; font-size: 10.5px; font-weight: 700; cursor: pointer; }
   .page-action:hover { background: rgba(59,130,246,0.22); color: #fff; box-shadow: 0 0 14px rgba(59,130,246,0.4); }
   .sec-head { display: flex; align-items: center; gap: 7px; padding: 8px 2px 3px; font-size: 9.5px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 1.3px; }
   .sec-head::before { content: ''; width: 2px; height: 10px; background: linear-gradient(180deg, var(--blue), var(--blue-dark)); border-radius: 2px; box-shadow: 0 0 6px var(--blue); }
-  .card { background: var(--card); border: 1px solid rgba(255,255,255,0.04); border-radius: 9px; padding: 10px 13px; display: flex; align-items: center; gap: 12px; position: relative; overflow: hidden; transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease; cursor: pointer; animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1) backwards; }
-  .card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(96,165,250,0.06), transparent); transform: translateX(-100%); transition: transform 0.6s ease; pointer-events: none; }
-  .card::after { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2px; height: 0; background: linear-gradient(180deg, var(--blue), var(--blue-dark)); border-radius: 0 2px 2px 0; box-shadow: 0 0 8px var(--blue); transition: height 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  .card { background: var(--card); border: 1px solid rgba(255,255,255,0.04); border-radius: 9px; padding: 10px 13px; display: flex; align-items: center; gap: 12px; position: relative; overflow: hidden; transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
+  .card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(96,165,250,0.06), transparent); transform: translateX(-100%); transition: transform 0.5s ease; }
+  .card::after { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 2px; height: 0; background: linear-gradient(180deg, var(--blue), var(--blue-dark)); border-radius: 2px; transition: height 0.18s ease; }
   .card:hover::before { transform: translateX(100%); }
   .card:hover::after { height: 60%; }
   .card:hover { background: var(--card-hi); border-color: var(--border-hi); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
@@ -293,16 +293,16 @@
   .card-title { font-size: 12px; font-weight: 700; color: var(--white); line-height: 1.2; }
   .card-desc { font-size: 10.5px; color: var(--gray); line-height: 1.4; }
   .card-trailing { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .toggle { width: 40px; height: 22px; border-radius: 11px; background: rgba(70,90,120,0.7); border: 1px solid rgba(255,255,255,0.06); position: relative; cursor: pointer; transition: background 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease; flex-shrink: 0; }
-  .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; background: #fff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.4); transition: left 0.22s cubic-bezier(0.34,1.56,0.64,1); }
+  .toggle { width: 40px; height: 22px; border-radius: 11px; background: rgba(70,90,120,0.7); border: 1px solid rgba(255,255,255,0.06); position: relative; cursor: pointer; transition: background 0.22s ease, border-color 0.22s ease; }
+  .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; background: #fff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.4); transition: left 0.22s ease; }
   .toggle.on { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); border-color: var(--blue); box-shadow: 0 0 12px rgba(59,130,246,0.5); }
   .toggle.on::after { left: calc(100% - 19px); }
   .slider-wrap { display: flex; align-items: center; gap: 10px; flex: 1; max-width: 220px; }
   .slider-track { flex: 1; height: 3px; background: rgba(96,165,250,0.15); border-radius: 2px; position: relative; cursor: pointer; }
-  .slider-fill { height: 100%; background: linear-gradient(90deg, var(--blue-dark), var(--blue)); border-radius: 2px; position: relative; box-shadow: 0 0 6px rgba(59,130,246,0.5); transition: width 0.08s linear; }
-  .slider-fill::after { content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: #fff; border: 2px solid var(--blue); border-radius: 50%; box-shadow: 0 0 8px rgba(59,130,246,0.8); }
-  .slider-val { min-width: 40px; padding: 3px 7px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; text-align: center; font-size: 10.5px; font-weight: 800; color: var(--glow); font-variant-numeric: tabular-nums; flex-shrink: 0; }
-  .dropdown { display: flex; align-items: center; gap: 6px; padding: 5px 9px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; cursor: pointer; font-size: 10.5px; font-weight: 700; color: var(--white); transition: border-color 0.15s ease, background 0.15s ease; flex-shrink: 0; min-width: 90px; justify-content: space-between; }
+  .slider-fill { height: 100%; background: linear-gradient(90deg, var(--blue-dark), var(--blue)); border-radius: 2px; position: relative; box-shadow: 0 0 6px rgba(59,130,246,0.5); transition: width 0.15s ease; }
+  .slider-fill::after { content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: #fff; border: 2px solid var(--blue); border-radius: 50%; }
+  .slider-val { min-width: 40px; padding: 3px 7px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; text-align: center; font-size: 10.5px; font-weight: 800; color: var(--ice); }
+  .dropdown { display: flex; align-items: center; gap: 6px; padding: 5px 9px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; cursor: pointer; font-size: 10.5px; color: var(--white); min-width: 96px; }
   .dropdown:hover { border-color: var(--border-hi); background: rgba(96,165,250,0.10); }
   .dropdown .chev { color: var(--gray); }
   .chev-arrow { color: var(--gray); transition: color 0.15s, transform 0.15s; flex-shrink: 0; }
@@ -313,42 +313,42 @@
   .badge.pro { background: rgba(255,200,60,0.14); border: 1px solid rgba(255,200,60,0.4); color: var(--yellow); }
   .info-card { background: rgba(20,25,40,0.5); border: 1px solid rgba(96,165,250,0.12); border-radius: 8px; padding: 10px 13px; font-size: 10.5px; color: var(--gray); line-height: 1.5; }
 
-  .char-panel { width: 210px; flex-shrink: 0; background: linear-gradient(180deg, rgba(10,20,42,0.5), rgba(3,5,16,0.9)); border-left: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; position: relative; overflow: hidden; perspective: 800px; }
-  .char-panel::after { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, transparent, transparent 14px, rgba(96,165,250,0.025) 14px, rgba(96,165,250,0.025) 15px); pointer-events: none; }
-  .char-glow { position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: 240px; height: 240px; background: radial-gradient(circle, rgba(59,130,246,0.45), rgba(30,64,175,0.2) 40%, transparent 70%); filter: blur(45px); animation: pulse 4s ease-in-out infinite; z-index: 1; }
+  .char-panel { width: 210px; flex-shrink: 0; background: linear-gradient(180deg, rgba(10,20,42,0.5), rgba(3,5,16,0.9)); border-left: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .char-panel::after { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(-45deg, transparent, transparent 14px, rgba(96,165,250,0.025) 14px, rgba(96,165,250,0.025) 28px); }
+  .char-glow { position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: 240px; height: 240px; background: radial-gradient(circle, rgba(59,130,246,0.45), rgba(30,64,175,0.2) 40%, transparent 70%); }
   .char-stage { position: relative; width: 160px; height: 240px; z-index: 2; animation: float 5s ease-in-out infinite; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; }
   .char-avatar { width: 100%; height: 100%; object-fit: contain; object-position: center top; filter: drop-shadow(0 0 24px rgba(59,130,246,0.5)); transform-style: preserve-3d; animation: rotate3d 8s ease-in-out infinite; }
   .char-fallback { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; animation: rotate3d 8s ease-in-out infinite; }
   .char-fallback.show { display: flex; }
-  .char-head-bacon { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #ffe6a8, #ffcc66); box-shadow: inset -8px -8px 16px rgba(0,0,0,0.2), inset 8px 8px 16px rgba(255,255,255,0.35), 0 0 24px rgba(255,204,102,0.4); position: relative; margin-bottom: 6px; }
-  .char-head-bacon::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 66px; height: 26px; background: linear-gradient(135deg, #a8563f, #6d3a2c); clip-path: polygon(0% 100%, 10% 40%, 25% 55%, 40% 20%, 55% 55%, 70% 40%, 85% 60%, 100% 100%); }
+  .char-head-bacon { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #ffe6a8, #ffcc66); box-shadow: inset -8px -8px 16px rgba(0,0,0,0.2), inset 8px 8px 16px rgba(255,255,255,0.2); position: relative; }
+  .char-head-bacon::before { content: ''; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 66px; height: 26px; background: linear-gradient(135deg, #a8563f, #6d3a2c); clip-path: polygon(12% 100%, 22% 30%, 38% 12%, 62% 12%, 78% 30%, 88% 100%); }
   .char-head-bacon::after { content: ''; position: absolute; top: 22px; left: 18px; width: 6px; height: 6px; background: #12121a; border-radius: 50%; box-shadow: 18px 0 0 #12121a; }
-  .char-body-bacon { width: 80px; height: 88px; background: linear-gradient(135deg, #4a90e2, #2c5fa8); border-radius: 10px 10px 8px 8px; box-shadow: inset -6px -6px 12px rgba(0,0,0,0.3), inset 6px 6px 12px rgba(255,255,255,0.15); position: relative; }
+  .char-body-bacon { width: 80px; height: 88px; background: linear-gradient(135deg, #4a90e2, #2c5fa8); border-radius: 10px 10px 8px 8px; box-shadow: inset -6px -6px 12px rgba(0,0,0,0.3), inset 6px 6px 12px rgba(255,255,255,0.1); position: relative; }
   .char-body-bacon::before { content: ''; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 22px; height: 22px; background: #ffcc66; border-radius: 50%; }
   .char-legs-bacon { width: 70px; display: flex; justify-content: space-around; margin-top: 2px; }
   .char-leg-bacon { width: 24px; height: 62px; background: linear-gradient(180deg, #2c5fa8, #1a3d6d); border-radius: 5px; }
-  .char-shadow { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 140px; height: 16px; background: radial-gradient(ellipse, rgba(59,130,246,0.55), rgba(30,64,175,0.25) 40%, transparent 70%); filter: blur(6px); z-index: 1; animation: pulse 5s ease-in-out infinite; }
+  .char-shadow { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 140px; height: 16px; background: radial-gradient(ellipse, rgba(59,130,246,0.55), rgba(30,64,175,0.25) 60%, transparent 100%); border-radius: 50%; z-index: 1; }
   .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; pointer-events: none; z-index: 3; }
   .p1 { top: 15%; left: 12%; background: var(--blue); box-shadow: 0 0 10px var(--blue); animation: p1 6s linear infinite; }
   .p2 { top: 60%; right: 10%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: p2 8s linear infinite; }
   .p3 { bottom: 25%; left: 15%; background: var(--ice); box-shadow: 0 0 10px var(--ice); animation: p3 7s linear infinite; }
-  @keyframes p1 { 0%,100% { transform: translate(0,0); opacity: 0.3; } 25% { transform: translate(18px,-14px); opacity: 1; } 50% { transform: translate(0,-28px); opacity: 0.7; } 75% { transform: translate(-14px,-14px); opacity: 1; } }
+  @keyframes p1 { 0%,100% { transform: translate(0,0); opacity: 0.3; } 25% { transform: translate(18px,-14px); opacity: 1; } 50% { transform: translate(0,-28px); opacity: 0.7; } 75% { transform: translate(-10px,-20px); opacity: 0.9; } }
   @keyframes p2 { 0%,100% { transform: translate(0,0); opacity: 0.5; } 33% { transform: translate(-22px,14px); opacity: 1; } 66% { transform: translate(10px,22px); opacity: 0.7; } }
   @keyframes p3 { 0%,100% { transform: translate(0,0); opacity: 0.4; } 50% { transform: translate(22px,10px); opacity: 1; } }
-  .char-label { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 9.5px; color: rgba(200,215,235,0.55); letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; z-index: 3; animation: pulse 3s ease-in-out infinite; white-space: nowrap; }
+  .char-label { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 9.5px; color: rgba(200,215,235,0.55); letter-spacing: 2.5px; text-transform: uppercase; font-weight: 800; z-index: 2; }
   .char-label span { color: var(--ice); }
-  .char-change-btn { position: absolute; top: 12px; right: 12px; padding: 5px 10px; background: rgba(59,130,246,0.18); border: 1px solid rgba(96,165,250,0.4); border-radius: 7px; color: var(--ice); font-size: 10px; font-weight: 700; font-family: inherit; cursor: pointer; z-index: 4; transition: all 0.2s ease; }
+  .char-change-btn { position: absolute; top: 12px; right: 12px; padding: 5px 10px; background: rgba(59,130,246,0.18); border: 1px solid rgba(96,165,250,0.4); border-radius: 7px; color: var(--ice); font-family: inherit; font-size: 9.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; z-index: 4; }
   .char-change-btn:hover { background: rgba(59,130,246,0.3); color: #fff; box-shadow: 0 0 14px rgba(59,130,246,0.5); }
 
-  .fab { position: fixed; left: 18px; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); border: 1.5px solid rgba(96,165,250,0.5); color: #fff; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 0 22px rgba(59,130,246,0.5); z-index: 50; transition: transform 0.15s ease; }
+  .fab { position: fixed; left: 18px; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--blue-dark)); border: none; color: #fff; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 22px rgba(59,130,246,0.6); transition: transform 0.15s ease; }
   .fab.show { display: flex; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
   .fab:hover { transform: translateY(-50%) scale(1.05); }
   .fab:active { transform: translateY(-50%) scale(0.92); }
 
   .notifs { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column-reverse; gap: 8px; z-index: 500; max-width: 300px; pointer-events: none; }
-  .notif { background: rgba(8,14,28,0.96); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px 13px; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 12px 36px rgba(0,0,0,0.6); animation: slideRight 0.35s cubic-bezier(0.34,1.56,0.64,1); pointer-events: auto; position: relative; overflow: hidden; min-width: 240px; }
+  .notif { background: rgba(8,14,28,0.96); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px 13px; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); position: relative; overflow: hidden; }
   .notif.out { animation: slideOut 0.35s ease forwards; }
-  .notif-icon { width: 26px; height: 26px; border-radius: 50%; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; color: var(--glow); flex-shrink: 0; }
+  .notif-icon { width: 26px; height: 26px; border-radius: 50%; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; color: var(--ice); }
   .notif.success .notif-icon { background: rgba(70,220,110,0.15); border-color: rgba(70,220,110,0.4); color: var(--green); }
   .notif.warn .notif-icon { background: rgba(255,200,60,0.15); border-color: rgba(255,200,60,0.4); color: var(--yellow); }
   .notif.error .notif-icon { background: rgba(255,48,48,0.15); border-color: rgba(255,48,48,0.4); color: var(--red); }
@@ -361,30 +361,30 @@
   .notif.info .notif-bar-fill { background: linear-gradient(90deg, var(--blue), rgba(59,130,246,0.4)); }
   .notif.error .notif-bar-fill { background: linear-gradient(90deg, var(--red), rgba(255,48,48,0.4)); }
 
-  .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 3000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.2s ease; padding: 20px; }
-  .popup { background: linear-gradient(180deg, rgba(12,20,42,0.98), rgba(8,14,28,0.98)); border: 1px solid var(--border-hi); border-radius: 12px; padding: 20px 22px 18px; min-width: 290px; max-width: 380px; width: 100%; box-shadow: 0 24px 80px rgba(0,0,0,0.9), 0 0 60px rgba(59,130,246,0.15); animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1); position: relative; overflow: hidden; }
+  .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .popup { background: linear-gradient(180deg, rgba(12,20,42,0.98), rgba(8,14,28,0.98)); border: 1px solid var(--border-hi); border-radius: 12px; padding: 20px 22px 18px; min-width: 290px; max-width: 380px; position: relative; }
   .popup::before { content: ''; position: absolute; top: 0; left: 22px; right: 22px; height: 2px; background: linear-gradient(90deg, transparent, var(--blue), transparent); border-radius: 2px; }
-  .popup-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; color: var(--glow); margin-bottom: 12px; animation: pulse 2s ease-in-out infinite; }
+  .popup-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4); display: flex; align-items: center; justify-content: center; color: var(--ice); margin-bottom: 12px; }
   .popup-icon.warn { background: rgba(255,200,60,0.15); border-color: rgba(255,200,60,0.4); color: var(--yellow); }
   .popup-title { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: -0.01em; margin-bottom: 5px; }
   .popup-msg { font-size: 12px; color: var(--gray); line-height: 1.5; margin-bottom: 16px; }
-  .popup-input { width: 100%; padding: 9px 11px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: inherit; font-size: 12px; margin-bottom: 14px; outline: none; transition: border-color 0.2s ease; }
+  .popup-input { width: 100%; padding: 9px 11px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: inherit; font-size: 12px; margin-bottom: 12px; }
   .popup-input:focus { border-color: var(--border-hi); }
   .popup-input::placeholder { color: var(--dim); }
   .popup-actions { display: flex; gap: 8px; justify-content: flex-end; }
-  .popup-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid transparent; font-family: inherit; font-size: 11.5px; font-weight: 700; cursor: pointer; transition: all 0.18s ease; min-width: 76px; }
+  .popup-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid transparent; font-family: inherit; font-size: 11.5px; font-weight: 700; cursor: pointer; transition: all 0.18s ease; min-width: 90px; }
   .popup-btn.cancel { background: rgba(50,70,100,0.5); color: var(--gray); border-color: rgba(255,255,255,0.06); }
   .popup-btn.cancel:hover { background: rgba(70,90,120,0.6); color: var(--white); }
   .popup-btn.confirm { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; box-shadow: 0 0 16px rgba(59,130,246,0.5); }
   .popup-btn.confirm:hover { box-shadow: 0 0 26px rgba(59,130,246,0.7); transform: translateY(-1px); }
 
-  .esp-preview-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 4000; display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.25s ease; }
-  .esp-preview { width: min(95vw, 900px); height: min(85vh, 600px); background: linear-gradient(180deg, #1a1428, #0a0510); border: 1px solid var(--border-hi); border-radius: 14px; box-shadow: 0 30px 100px rgba(0,0,0,0.9), 0 0 80px rgba(59,130,246,0.2); position: relative; overflow: hidden; animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+  .esp-preview-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 4000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .esp-preview { width: min(95vw, 900px); height: min(85vh, 600px); background: linear-gradient(180deg, #1a1428, #0a0510); border: 1px solid var(--border-hi); border-radius: 14px; box-shadow: 0 30px 90px rgba(0,0,0,0.8); position: relative; overflow: hidden; }
   .esp-preview-title { position: absolute; top: 16px; left: 20px; z-index: 10; font-size: 12px; color: var(--ice); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
-  .esp-preview-close { position: absolute; top: 14px; right: 14px; z-index: 10; width: 30px; height: 30px; border-radius: 8px; background: rgba(59,130,246,0.15); border: 1px solid var(--border-hi); color: var(--ice); font-family: inherit; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .esp-preview-close { position: absolute; top: 14px; right: 14px; z-index: 10; width: 30px; height: 30px; border-radius: 8px; background: rgba(59,130,246,0.15); border: 1px solid var(--border-hi); color: var(--ice); cursor: pointer; }
   .esp-preview-close:hover { background: rgba(59,130,246,0.3); color: #fff; }
   .esp-scene { position: absolute; inset: 0; background: linear-gradient(180deg, #2a3a55 0%, #1a2538 40%, #151e2e 75%, #0d1420 100%); overflow: hidden; }
-  .esp-scene::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(96,165,250,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.04) 1px, transparent 1px); background-size: 40px 40px; transform: perspective(500px) rotateX(60deg); transform-origin: center bottom; }
+  .esp-scene::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(96,165,250,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.04) 1px, transparent 1px); background-size: 28px 28px; }
   .esp-target { position: absolute; width: 60px; height: 140px; left: 50%; top: 45%; transform: translate(-50%, -50%); z-index: 5; }
   .esp-target-body { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; }
   .esp-target-head { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #d8d8e2, #a0a0b2); box-shadow: 0 0 20px rgba(255,255,255,0.15); margin-bottom: 4px; }
@@ -392,11 +392,11 @@
   .esp-target-legs { width: 40px; height: 42px; display: flex; justify-content: space-around; margin-top: 2px; }
   .esp-target-leg { width: 16px; height: 40px; background: linear-gradient(180deg, #2a3350, #1a2038); border-radius: 4px; }
   .esp-box { position: absolute; z-index: 8; border: 2px solid var(--blue); box-shadow: 0 0 12px rgba(59,130,246,0.6), inset 0 0 12px rgba(59,130,246,0.2); pointer-events: none; }
-  .esp-name-label { position: absolute; z-index: 8; padding: 3px 8px; background: rgba(8,14,28,0.85); border: 1px solid rgba(59,130,246,0.4); border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ice); white-space: nowrap; text-shadow: 0 0 8px rgba(59,130,246,0.8); pointer-events: none; }
+  .esp-name-label { position: absolute; z-index: 8; padding: 3px 8px; background: rgba(8,14,28,0.85); border: 1px solid rgba(59,130,246,0.4); border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ice); }
   .esp-health-bg { position: absolute; z-index: 8; width: 4px; background: rgba(0,0,0,0.6); border: 1px solid rgba(59,130,246,0.4); border-radius: 2px; pointer-events: none; }
-  .esp-health-fill { position: absolute; z-index: 9; width: 4px; background: linear-gradient(180deg, #46dc6e, #2a9944); border-radius: 2px; pointer-events: none; box-shadow: 0 0 8px rgba(70,220,110,0.5); }
-  .esp-tracer { position: absolute; z-index: 7; bottom: 0; left: 50%; width: 2px; height: 50%; background: linear-gradient(180deg, transparent, var(--blue)); transform-origin: bottom center; pointer-events: none; box-shadow: 0 0 10px var(--blue); }
-  .esp-preview-hint { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 8px 14px; background: rgba(8,14,28,0.9); border: 1px solid var(--border); border-radius: 8px; font-size: 11px; color: var(--gray); text-align: center; }
+  .esp-health-fill { position: absolute; z-index: 9; width: 4px; background: linear-gradient(180deg, #46dc6e, #2a9944); border-radius: 2px; pointer-events: none; box-shadow: 0 0 8px rgba(70,220,110,0.8); }
+  .esp-tracer { position: absolute; z-index: 7; bottom: 0; left: 50%; width: 2px; height: 50%; background: linear-gradient(180deg, transparent, var(--blue)); transform-origin: bottom center; pointer-events: none; }
+  .esp-preview-hint { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 10; padding: 8px 14px; background: rgba(8,14,28,0.9); border: 1px solid var(--border); border-radius: 999px; font-size: 11px; color: var(--gray); }
   .esp-preview-hint strong { color: var(--ice); }
 
   @media (max-width: 800px) {
@@ -471,7 +471,9 @@
     </div>
     <div class="topbar-spacer"></div>
     <div class="win-btns">
-      <button class="win-btn close" onclick="askConfirm('Unload Hub','Are you sure?',()=>{document.getElementById('panel').style.display='none';document.getElementById('fab').classList.add('show');document.getElementById('watermark').style.display='none'})">
+      <button class="win-btn close" onclick="askConfirm('Unload Hub','Are you sure?',()=>{document.getElementById('panel').style.display='none';document.getElementById('fab').classList.add('show');document.getElementById('watermark').style.display='none';})">
+        <svg class="ico ico-sm"><use href="#i-x"/></svg>
+      </button>
     </div>
   </div>
   <div class="body">
@@ -517,43 +519,40 @@
     <symbol id="i-menu" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-minus" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5" stroke="currentColor" stroke-width="2" fill="none"/><path d="m21 2-9.6 9.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="m15.5 7.5 3 3L22 7l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
-    <symbol id="i-crosshair" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="22" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="12" x2="2" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="6" x2="12" y2="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="22" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-swords" viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M13 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M16 16l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M19 21l2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M9.5 17.5L21 6V3h-3L6.5 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M11 19l-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M8 16l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M5 21l-2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5" stroke="currentColor" stroke-width="2" fill="none"/><path d="m21 2-9.6 9.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15.8 7.6h2.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-crosshair" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="22" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="2" x2="12" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="18" x2="12" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="12" x2="6" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-swords" viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M13 19l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 19l2.5-2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
-    <symbol id="i-move" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="9 5 12 2 15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="15 19 12 22 9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="19 9 22 12 19 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-package" viewBox="0 0 24 24"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-webhook" viewBox="0 0 24 24"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
-    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-move" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="9 5 12 2 15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="15 19 12 22 9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="19 15 22 12 19 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="3 8 12 13 21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 13 12 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-webhook" viewBox="0 0 24 24"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M11 9.98h3.5c1.93 0 3.5 1.57 3.5 3.5v.02" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 6.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1.1 1.55V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8.6 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.55-1.1H2.96a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1.1-1.55V2.96a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15.4 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.36.17.78.1 1.08-.22a2 2 0 0 1 2.84 2.83L23 12.14A1.65 1.65 0 0 0 19.4 15z" stroke="currentColor" stroke-width="1.5" fill="none"/></symbol>
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
-    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M17 3h2a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M21 17v2a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M7 21H5a2 2 0 0 1-2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
-    <symbol id="i-ghost" viewBox="0 0 24 24"><path d="M9 10h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15 10h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
-    <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M17 3h2a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M3 17v2a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M17 21h2a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M7 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-ghost" viewBox="0 0 24 24"><path d="M9 10h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15 10h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17 17a5 5 0 0 1-10 0v-5a7 7 0 0 1 14 0v5z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 17l-2.5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17 17l2.5 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="3 8 12 13 21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="12 13 12 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></symbol>
-    <symbol id="i-mouse" viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M13 13l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-mouse" viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M10.1 10.1L20 20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/><path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z" stroke="currentColor" stroke-width="1.7" fill="none"/></symbol>
     <symbol id="i-workflow" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
-    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="4" y1="22" x2="4" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M4 21V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
     <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="8" x2="12.01" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-chev-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
     <symbol id="i-crown" viewBox="0 0 24 24"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/><line x1="5" y1="20" x2="19" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polygon points="22 2 15 22 11 13 2 9 22 2" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></symbol>
-    <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="17 21 17 13 7 13 7 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="7 3 7 8 15 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
-    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="12" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="16" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="17 21 17 13 7 13 7 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="7 3 7 8 15 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="12" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
     <symbol id="i-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="12" y1="19" x2="20" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </defs>
 </svg>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// CONFIG — backend real
-// ═══════════════════════════════════════════════════════════════
 const CFG = {
   API: 'https://str1ker-backend-production.up.railway.app',
   LOOTLABS: 'https://lootdest.org/s?w1RValf6',
@@ -561,7 +560,6 @@ const CFG = {
   PUID_LS: 'str1ker_puid',
 };
 
-// PUID: no Roblox é LocalPlayer.UserId. No browser, gera fake estável
 function getPUID() {
   let p = localStorage.getItem(CFG.PUID_LS);
   if (!p || p.startsWith('web_')) {
@@ -572,9 +570,6 @@ function getPUID() {
 }
 const PUID = getPUID();
 
-// ═══════════════════════════════════════════════════════════════
-// ANTI-TAMPER
-// ═══════════════════════════════════════════════════════════════
 (function(){
   const MSG = '%cThe script is safe, nigga🤡';
   const STYLE = 'color:#3b82f6;font-size:18px;font-weight:900;padding:6px;text-shadow:0 0 10px rgba(59,130,246,0.8);';
@@ -582,16 +577,13 @@ const PUID = getPUID();
   document.addEventListener('keydown', e => {
     const k = e.key.toUpperCase();
     if (k === 'F12' || (e.ctrlKey && e.shiftKey && (k === 'I' || k === 'J' || k === 'C')) || (e.ctrlKey && k === 'U')) {
-      e.preventDefault(); try { console.clear(); console.log(MSG, STYLE); } catch(_){}
+      e.preventDefault(); try { console.clear(); console.log(MSG, STYLE); } catch(_){ }
     }
   }, true);
 })();
 
 function icon(id, cls) { return `<svg class="ico ${cls||''}"><use href="#${id}"/></svg>`; }
 
-// ═══════════════════════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════════════════════
 const DATA = {
   Aimbot: { icon: 'i-crosshair', tabs: [
     { name: 'Aimbot', icon: 'i-crosshair' },{ name: 'Prediction', icon: 'i-scan' },{ name: 'Target', icon: 'i-target' },
@@ -1012,577 +1004,317 @@ function renderCards() {
   head.innerHTML = `
     <div>
       <div class="page-title">${currentTab}</div>
-      <div class="page-sub">${page.subtitle || ''}</div>
+      <div class="page-sub">${page.subtitle}</div>
     </div>
-    ${currentCat === 'Visuals' && currentTab === 'ESP' ? `<button class="page-action" onclick="openEspPreview()">${icon('i-eye','ico-sm')} Preview</button>` : ''}
+    <button class="page-action">Apply Preset</button>
   `;
   cardsEl.appendChild(head);
 
-  let idx = 0;
   page.sections.forEach(sec => {
-    const secHead = document.createElement('div');
-    secHead.className = 'sec-head';
-    secHead.textContent = sec.title;
-    cardsEl.appendChild(secHead);
+    const headSec = document.createElement('div');
+    headSec.className = 'sec-head';
+    headSec.textContent = sec.title;
+    cardsEl.appendChild(headSec);
 
     sec.cards.forEach(card => {
-      const el = document.createElement('div');
-      el.style.animationDelay = (idx * 0.02) + 's'; idx++;
+      const item = document.createElement('div');
+      item.className = 'card' + (card.type === 'info' || card.type === 'locked' ? ' static' : '');
+      item.innerHTML = `
+        <div class="card-body">
+          <div class="card-title">${card.title}${card.badge ? ` <span class="badge ${card.badgeClass||''}">${card.badge}</span>` : ''}</div>
+          ${card.desc ? `<div class="card-desc">${card.desc}</div>` : ''}
+        </div>
+        <div class="card-trailing"></div>
+      `;
 
+      const trail = item.querySelector('.card-trailing');
       if (card.type === 'toggle') {
-        el.className = 'card';
-        el.innerHTML = `
-          <div class="card-body">
-            <div class="card-title">${card.title}</div>
-            <div class="card-desc">${card.desc}</div>
-          </div>
-          <div class="card-trailing"><div class="toggle ${card.on ? 'on' : ''}"></div></div>
-        `;
-        const tg = el.querySelector('.toggle');
-        el.onclick = () => {
-          tg.classList.toggle('on');
-          const on = tg.classList.contains('on');
-          card.on = on;
-          showNotif(card.title, on ? 'Enabled' : 'Disabled', on ? 'success' : 'info');
+        const b = document.createElement('button');
+        b.className = 'toggle' + (card.on ? ' on' : '');
+        b.onclick = () => { card.on = !card.on; renderCards(); };
+        trail.appendChild(b);
+      } else if (card.type === 'slider') {
+        const wrap = document.createElement('div');
+        wrap.className = 'slider-wrap';
+        const track = document.createElement('div');
+        track.className = 'slider-track';
+        const fill = document.createElement('div');
+        fill.className = 'slider-fill';
+        const min = Number(card.min || 0);
+        const max = Number(card.max || 100);
+        const val = Number(card.value || 0);
+        fill.style.width = ((val - min) / (max - min || 1) * 100) + '%';
+        track.appendChild(fill);
+        const out = document.createElement('div');
+        out.className = 'slider-val';
+        out.textContent = String(card.value);
+        wrap.append(track, out);
+        trail.appendChild(wrap);
+      } else if (card.type === 'dropdown') {
+        const d = document.createElement('div');
+        d.className = 'dropdown';
+        d.innerHTML = `<span>${card.value}</span><svg class="ico ico-sm chev-arrow"><use href="#i-chev-right"/></svg>`;
+        d.onclick = () => {
+          const nextIndex = (card.options.indexOf(card.value) + 1) % card.options.length;
+          card.value = card.options[nextIndex];
+          renderCards();
         };
+        trail.appendChild(d);
+      } else if (card.type === 'arrow') {
+        const b = document.createElement('button');
+        b.className = 'dropdown';
+        b.innerHTML = `<span>Open</span><svg class="ico ico-sm chev-arrow"><use href="#i-chev-right"/></svg>`;
+        b.onclick = card.action;
+        trail.appendChild(b);
+      } else if (card.type === 'info') {
+        const info = document.createElement('div');
+        info.className = 'info-card';
+        info.textContent = `${card.title} — ${card.desc}`;
+        item.innerHTML = '';
+        item.appendChild(info);
+      } else if (card.type === 'locked') {
+        const badge = document.createElement('div');
+        badge.className = 'badge ' + (card.badgeClass || 'required');
+        badge.textContent = card.badge;
+        trail.appendChild(badge);
       }
-      else if (card.type === 'slider') {
-        el.className = 'card static';
-        const isDec = card.max <= 2;
-        const pct = ((card.value - card.min) / (card.max - card.min)) * 100;
-        el.innerHTML = `
-          <div class="card-body">
-            <div class="card-title">${card.title}</div>
-            <div class="card-desc">${card.desc}</div>
-          </div>
-          <div class="card-trailing">
-            <div class="slider-wrap">
-              <div class="slider-track" data-min="${card.min}" data-max="${card.max}" data-decimal="${isDec}">
-                <div class="slider-fill" style="width:${pct}%"></div>
-              </div>
-              <div class="slider-val">${isDec ? card.value.toFixed(2) : card.value}</div>
-            </div>
-          </div>
-        `;
-        attachSlider(el);
-      }
-      else if (card.type === 'dropdown') {
-        el.className = 'card';
-        el.innerHTML = `
-          <div class="card-body">
-            <div class="card-title">${card.title}</div>
-            <div class="card-desc">${card.desc}</div>
-          </div>
-          <div class="card-trailing">
-            <div class="dropdown"><span>${card.value}</span>${icon('i-chev-right','chev ico-sm')}</div>
-          </div>
-        `;
-        el.onclick = () => showDropdown(el, card);
-      }
-      else if (card.type === 'locked') {
-        el.className = 'card static';
-        el.innerHTML = `
-          <div class="card-body">
-            <div class="card-title">${card.title}</div>
-            <div class="card-desc">${card.desc}</div>
-          </div>
-          <div class="card-trailing"><span class="badge ${card.badgeClass}">${card.badge}</span></div>
-        `;
-      }
-      else if (card.type === 'info') {
-        el.className = 'card static';
-        el.innerHTML = `
-          <div class="card-body">
-            <div class="card-title">${card.title}</div>
-            <div class="card-desc">${card.desc}</div>
-          </div>
-        `;
-      }
-      else {
-        el.className = 'card';
-        el.innerHTML = `
-          <div class="card-body">
-            <div class="card-title">${card.title}</div>
-            <div class="card-desc">${card.desc}</div>
-          </div>
-          <div class="card-trailing">${icon('i-chev-right','chev-arrow ico-sm')}</div>
-        `;
-        el.onclick = () => { if (card.action) card.action(); else showNotif(card.title,'Executed','success'); };
-      }
-      cardsEl.appendChild(el);
+      cardsEl.appendChild(item);
     });
   });
 }
 
-function attachSlider(el) {
-  const track = el.querySelector('.slider-track');
-  const fill = el.querySelector('.slider-fill');
-  const val = el.querySelector('.slider-val');
-  const min = +track.dataset.min, max = +track.dataset.max;
-  const isDec = track.dataset.decimal === 'true';
-  const setFromX = (x) => {
-    const r = track.getBoundingClientRect();
-    const rel = Math.max(0, Math.min(1, (x - r.left) / r.width));
-    const v = min + (max - min) * rel;
-    fill.style.width = (rel * 100) + '%';
-    val.textContent = isDec ? v.toFixed(2) : Math.round(v);
-  };
-  const onDown = (e) => {
-    e.stopPropagation();
-    setFromX(e.touches ? e.touches[0].clientX : e.clientX);
-    const onMove = (ev) => setFromX(ev.touches ? ev.touches[0].clientX : ev.clientX);
-    const onUp = () => {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseup', onUp);
-      window.removeEventListener('touchmove', onMove);
-      window.removeEventListener('touchend', onUp);
-    };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
-    window.addEventListener('touchmove', onMove, { passive: true });
-    window.addEventListener('touchend', onUp);
-  };
-  track.addEventListener('mousedown', onDown);
-  track.addEventListener('touchstart', onDown, { passive: true });
-  el.addEventListener('click', e => e.stopPropagation());
-}
-
-function showDropdown(cardEl, card) {
-  const ex = document.querySelector('.popup-overlay'); if (ex) ex.remove();
-  const overlay = document.createElement('div'); overlay.className = 'popup-overlay';
-  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
-  const popup = document.createElement('div'); popup.className = 'popup';
-  popup.innerHTML = `<div class="popup-title">${card.title}</div><div class="popup-msg">${card.desc}</div><div id="ddOptions"></div>`;
-  const opts = popup.querySelector('#ddOptions');
-  card.options.forEach(opt => {
-    const b = document.createElement('button');
-    b.className = 'popup-btn';
-    b.style.cssText = 'display:block;width:100%;margin-bottom:6px;' + (opt === card.value ? 'background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;' : 'background:rgba(50,70,100,0.4);color:var(--white);');
-    b.textContent = opt;
-    b.onclick = () => { card.value = opt; renderCards(); overlay.remove(); showNotif(card.title,'Set to '+opt,'success'); };
-    opts.appendChild(b);
-  });
-  overlay.appendChild(popup);
-  document.body.appendChild(overlay);
-}
-
-function switchCat(cat) {
-  currentCat = cat;
-  currentTab = DATA[cat].tabs[0].name;
-  document.querySelectorAll('.cat-btn').forEach(el => el.classList.toggle('active', el.dataset.cat === cat));
+function switchCat(key) {
+  currentCat = key;
+  const firstTab = DATA[key].tabs[0]?.name || 'Aimbot';
+  currentTab = firstTab;
+  renderCats();
   renderTabs();
   renderCards();
 }
 
-function openEspPreview() {
-  const esp = DATA.Visuals.content.ESP;
-  const t = {};
-  esp.sections.forEach(s => s.cards.forEach(c => { if (c.type === 'toggle') t[c.title] = c.on; }));
+function askPrompt(title, placeholder, onSubmit) {
   const overlay = document.createElement('div');
-  overlay.className = 'esp-preview-overlay';
-  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
-  const p = document.createElement('div'); p.className = 'esp-preview';
-  const on = Object.keys(t).filter(k => t[k]).length;
-  p.innerHTML = `
-    <div class="esp-preview-title">ESP Preview</div>
-    <button class="esp-preview-close" onclick="this.parentElement.parentElement.remove()">X</button>
-    <div class="esp-scene">
-      <div class="esp-target">
-        <div class="esp-target-body">
-          <div class="esp-target-head"></div>
-          <div class="esp-target-torso"></div>
-          <div class="esp-target-legs">
-            <div class="esp-target-leg"></div>
-            <div class="esp-target-leg"></div>
-          </div>
-        </div>
-        ${t['Box'] ? '<div class="esp-box" style="left:-10px;top:-10px;right:-10px;bottom:-10px;"></div>' : ''}
-        ${t['Health Bar'] ? `
-          <div class="esp-health-bg" style="left:-24px;top:0;height:140px;"></div>
-          <div class="esp-health-fill" style="left:-24px;top:35px;height:105px;"></div>
-        ` : ''}
-        ${t['Name'] || t['Distance'] ? `<div class="esp-name-label" style="left:50%;top:-30px;transform:translateX(-50%);">ws_pix${t['Distance'] ? ' [124m]' : ''}</div>` : ''}
-      </div>
-      ${t['Tracer'] ? '<div class="esp-tracer"></div>' : ''}
-      <div class="esp-preview-hint">
-        ${on === 0 ? 'No ESP options enabled — activate toggles to preview' : `${on} ESP options active`}
+  overlay.className = 'popup-overlay';
+  overlay.innerHTML = `
+    <div class="popup">
+      <div class="popup-icon"><svg class="ico ico-lg"><use href="#i-info"/></svg></div>
+      <div class="popup-title">${title}</div>
+      <div class="popup-msg">${placeholder}</div>
+      <input class="popup-input" id="pInput" placeholder="${placeholder}" value="">
+      <div class="popup-actions">
+        <button class="popup-btn cancel">Cancel</button>
+        <button class="popup-btn confirm">Confirm</button>
       </div>
     </div>
   `;
-  overlay.appendChild(p);
   document.body.appendChild(overlay);
+  const input = overlay.querySelector('#pInput');
+  input.focus();
+  overlay.querySelector('.cancel').onclick = () => overlay.remove();
+  overlay.querySelector('.confirm').onclick = () => { const val = input.value; overlay.remove(); onSubmit(val); };
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') { const val = input.value; overlay.remove(); onSubmit(val); } });
 }
 
-function showNotif(title, msg, kind) {
-  kind = kind || 'info';
-  const holder = document.getElementById('notifs');
-  const el = document.createElement('div');
-  el.className = 'notif ' + kind;
-  let ico = 'i-check';
-  if (kind === 'warn') ico = 'i-alert';
-  if (kind === 'info') ico = 'i-info';
-  if (kind === 'error') ico = 'i-x';
-  el.innerHTML = `
-    <div class="notif-icon">${icon(ico,'ico-sm')}</div>
+function askConfirm(title, msg, onConfirm) {
+  const overlay = document.createElement('div');
+  overlay.className = 'popup-overlay';
+  overlay.innerHTML = `
+    <div class="popup">
+      <div class="popup-icon warn"><svg class="ico ico-lg"><use href="#i-alert"/></svg></div>
+      <div class="popup-title">${title}</div>
+      <div class="popup-msg">${msg}</div>
+      <div class="popup-actions">
+        <button class="popup-btn cancel">Cancel</button>
+        <button class="popup-btn confirm">Confirm</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('.cancel').onclick = () => overlay.remove();
+  overlay.querySelector('.confirm').onclick = () => { overlay.remove(); onConfirm(); };
+}
+
+function showNotif(title, msg, type = 'info') {
+  const notifs = document.getElementById('notifs');
+  const n = document.createElement('div');
+  n.className = `notif ${type}`;
+  n.innerHTML = `
+    <div class="notif-icon"><svg class="ico ico-sm"><use href="#i-${type === 'success' ? 'check' : type === 'warn' ? 'alert' : type === 'error' ? 'ban' : 'info'}"/></svg></div>
     <div class="notif-body">
       <div class="notif-title">${title}</div>
       <div class="notif-msg">${msg}</div>
     </div>
     <div class="notif-bar"><div class="notif-bar-fill"></div></div>
   `;
-  holder.appendChild(el);
-  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 400); }, 4000);
+  notifs.appendChild(n);
+  setTimeout(() => n.classList.add('out'), 3600);
+  setTimeout(() => n.remove(), 4000);
 }
 
-function askConfirm(title, msg, onYes) {
-  const ex = document.querySelector('.popup-overlay'); if (ex) ex.remove();
-  const overlay = document.createElement('div'); overlay.className = 'popup-overlay';
-  const popup = document.createElement('div'); popup.className = 'popup';
-  popup.innerHTML = `
-    <div class="popup-icon warn">${icon('i-alert','ico-lg')}</div>
-    <div class="popup-title">${title}</div>
-    <div class="popup-msg">${msg}</div>
-    <div class="popup-actions">
-      <button class="popup-btn cancel" id="pCancel">Cancel</button>
-      <button class="popup-btn confirm" id="pConfirm">Confirm</button>
-    </div>
-  `;
-  overlay.appendChild(popup);
-  document.body.appendChild(overlay);
-  popup.querySelector('#pCancel').onclick = () => overlay.remove();
-  popup.querySelector('#pConfirm').onclick = () => { overlay.remove(); if (onYes) onYes(); };
-}
-
-function showKeyPopup(key, onClose) {
-  const overlay = document.createElement('div');
-  overlay.className = 'popup-overlay';
-  overlay.innerHTML = `
-    <div class="popup" style="max-width:420px">
-      <div class="popup-icon" style="background:rgba(70,220,110,0.15);border-color:rgba(70,220,110,0.4);color:var(--green)">${icon('i-check','ico-lg')}</div>
-      <div class="popup-title">Sua key foi gerada!</div>
-      <div class="popup-msg">Copia ela pra guardar. Dura 12h e é renovada ao completar a task de novo.</div>
-      <input class="popup-input" id="keyResult" value="${key}" readonly style="font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:1.5px;text-align:center;color:var(--green);font-weight:700">
-      <div class="popup-actions">
-        <button class="popup-btn cancel" id="pCopy">Copiar</button>
-        <button class="popup-btn confirm" id="pOk">Entrar no Hub</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-  const inp = overlay.querySelector('#keyResult');
-  overlay.querySelector('#pCopy').onclick = async () => {
-    try { await navigator.clipboard.writeText(key); showNotif('Key','Copiada pro clipboard','success'); }
-    catch(_) { inp.select(); document.execCommand('copy'); showNotif('Key','Copiada','success'); }
-  };
-  overlay.querySelector('#pOk').onclick = () => { overlay.remove(); if (onClose) onClose(); };
-}
-
-const AVATAR_KEY = 'str1ker_avatar_id';
-
-function setAvatar(userId) {
+function setAvatar(value) {
   const img = document.getElementById('avatarImg');
-  const fb = document.getElementById('avatarFallback');
-  const label = document.getElementById('charLabel');
-  if (!userId) {
+  const fallback = document.getElementById('avatarFallback');
+  if (!value) {
+    img.removeAttribute('src');
+    fallback.classList.add('show');
     img.style.display = 'none';
-    fb.classList.add('show');
-    label.innerHTML = 'DEFAULT <span>SKIN</span>';
+    document.getElementById('charLabel').innerHTML = 'DEFAULT <span>SKIN</span>';
     return;
   }
-  fb.classList.remove('show');
+  img.src = value;
   img.style.display = 'block';
-  img.onerror = () => {
-    img.style.display = 'none';
-    fb.classList.add('show');
-    label.innerHTML = 'DEFAULT <span>SKIN</span>';
-    showNotif('Avatar','Load failed — bacon fallback','warn');
-  };
-  img.onload = () => { label.innerHTML = 'YOUR <span>SKIN</span>'; };
-  img.src = `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=420&height=420&format=png&_t=${Date.now()}`;
+  fallback.classList.remove('show');
+  document.getElementById('charLabel').innerHTML = 'CUSTOM <span>SKIN</span>';
 }
 
 function promptAvatarChange() {
-  const cur = localStorage.getItem(AVATAR_KEY) || '';
-  askPrompt('Roblox UserId','Ex: 1234567 (vazio = bacon)', v => {
-    const id = v.trim();
-    if (id === '') {
-      localStorage.removeItem(AVATAR_KEY);
+  askPrompt('Avatar UserId','Paste Roblox user id or avatar URL', v => {
+    const raw = (v || '').trim();
+    if (!raw) {
+      showNotif('Avatar','Cleared to default','info');
       setAvatar('');
-      showNotif('Avatar','Using default bacon','info');
-    } else if (/^\d+$/.test(id)) {
-      localStorage.setItem(AVATAR_KEY, id);
-      setAvatar(id);
-      showNotif('Avatar','Loaded user '+id,'success');
-    } else {
-      showNotif('Avatar','ID inválido','warn');
+      return;
     }
+    const id = raw.match(/\d+/)?.[0] || raw;
+    const url = `https://tr.rbxcdn.com/${id}/avatar?width=420&height=420&format=png`;
+    setAvatar(url);
+    showNotif('Avatar','Skin updated','success');
   });
-  setTimeout(() => {
-    const inp = document.getElementById('pInput');
-    if (inp && cur) inp.value = cur;
-  }, 50);
 }
 
-const scaleTrack = document.getElementById('scaleTrack');
-const scaleFill = document.getElementById('scaleFill');
-const scaleVal = document.getElementById('scaleVal');
-
-function applyScale(rel) {
-  rel = Math.max(0.40, Math.min(0.90, rel));
-  const w = Math.round(100 + rel * 1150);
-  const h = Math.round(w * 0.62);
-  panelEl.style.width = w + 'px';
-  panelEl.style.height = h + 'px';
-  const pct = Math.round(rel * 100);
-  scaleFill.style.width = ((rel - 0.40) / 0.50 * 100) + '%';
-  scaleVal.textContent = pct + '%';
-  localStorage.setItem('str1ker_scale', pct);
-}
-
-let scaleDrag = false;
-function scaleSet(x) {
-  const r = scaleTrack.getBoundingClientRect();
-  applyScale(0.40 + Math.max(0, Math.min(1, (x - r.left) / r.width)) * 0.50);
-}
-scaleTrack.addEventListener('mousedown', e => { e.stopPropagation(); scaleDrag = true; scaleSet(e.clientX); });
-scaleTrack.addEventListener('touchstart', e => { e.stopPropagation(); scaleDrag = true; scaleSet(e.touches[0].clientX); }, { passive: true });
-window.addEventListener('mousemove', e => { if (scaleDrag) scaleSet(e.clientX); });
-window.addEventListener('mouseup', () => { scaleDrag = false; });
-window.addEventListener('touchmove', e => { if (scaleDrag) scaleSet(e.touches[0].clientX); }, { passive: true });
-window.addEventListener('touchend', () => { scaleDrag = false; });
-
-document.getElementById('fab').onclick = () => {
+function initKeyScreen() {
+  const keyInput = document.getElementById('keyInput');
+  const keyBtn = document.getElementById('keyBtn');
+  const getKeyBtn = document.getElementById('getKeyBtn');
+  const keyScreen = document.getElementById('keyScreen');
+  const loaderScreen = document.getElementById('loaderScreen');
+  const loaderFill = document.getElementById('loaderFill');
+  const loaderPct = document.getElementById('loaderPct');
+  const loaderStatus = document.getElementById('loaderStatus');
   const panel = document.getElementById('panel');
-  const isHidden = panel.style.display === 'none' || panel.style.display === '';
-  panel.style.display = isHidden ? 'flex' : 'none';
-  document.getElementById('fab').classList.toggle('show', !isHidden ? true : false);
-};
+  const fab = document.getElementById('fab');
+  const watermark = document.getElementById('watermark');
+  const keyStatus = document.getElementById('keyStatus');
+  const keyPolling = document.getElementById('keyPolling');
+  const pollingText = document.getElementById('pollingText');
+  const keyPad = document.getElementById('puidBadge');
+  keyPad.textContent = PUID.slice(0, 12);
 
-// ═══════════════════════════════════════════════════════════════
-// FLOW: KEY → LOADER → HUB (com backend real)
-// ═══════════════════════════════════════════════════════════════
-const keyScreen     = document.getElementById('keyScreen');
-const loaderScreen  = document.getElementById('loaderScreen');
-const keyInput      = document.getElementById('keyInput');
-const keyBtn        = document.getElementById('keyBtn');
-const getKeyBtn     = document.getElementById('getKeyBtn');
-const keyStatus     = document.getElementById('keyStatus');
-const keyPolling    = document.getElementById('keyPolling');
-const pollingText   = document.getElementById('pollingText');
-const puidBadge     = document.getElementById('puidBadge');
-const resetKeyLink  = document.getElementById('resetKeyLink');
+  const savedKey = localStorage.getItem(CFG.KEY_LS);
+  if (savedKey) keyInput.value = savedKey;
 
-puidBadge.textContent = PUID;
-
-function setStatus(txt, cls) {
-  keyStatus.textContent = txt;
-  keyStatus.className = 'key-status' + (cls ? ' ' + cls : '');
-}
-
-// ── backend helpers
-async function apiValidate(key) {
-  try {
-    const res = await fetch(CFG.API + '/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key }),
-    });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (e) {
-    console.error('[API] validate failed:', e);
-    return null;
-  }
-}
-
-async function apiGetKey(puid) {
-  try {
-    const res = await fetch(CFG.API + '/get-key/' + encodeURIComponent(puid));
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (e) {
-    console.error('[API] get-key failed:', e);
-    return null;
-  }
-}
-
-// ── format: aceita STR1KER-XXXX-XXXX ou hex cru
-function looksLikeKey(k) {
-  if (!k) return false;
-  const stripped = k.replace(/[^A-Za-z0-9]/g, '');
-  return stripped.length >= 8 && stripped.length <= 32;
-}
-
-// ── loader
-function startLoader() {
-  keyScreen.classList.add('hide');
-  setTimeout(() => { keyScreen.style.display = 'none'; }, 400);
-  loaderScreen.style.display = 'flex';
-
-  const DURATION = 4500;
-  const start = performance.now();
-  const steps = [
-    { at: 0, t: 'initializing' },
-    { at: 12, t: 'verifying key' },
-    { at: 30, t: 'loading modules' },
-    { at: 55, t: 'injecting bypass' },
-    { at: 78, t: 'connecting api' },
-    { at: 92, t: 'finalizing' },
-  ];
-  const fillEl = document.getElementById('loaderFill');
-  const pctEl = document.getElementById('loaderPct');
-  const stEl = document.getElementById('loaderStatus');
-
-  function tick() {
-    const p = Math.min(1, (performance.now() - start) / DURATION);
-    fillEl.style.width = (p * 100) + '%';
-    pctEl.textContent = Math.floor(p * 100) + '%';
-    let s = steps[0].t;
-    for (const x of steps) if (p * 100 >= x.at) s = x.t;
-    stEl.textContent = s;
-    if (p < 1) { requestAnimationFrame(tick); }
-    else {
-      setTimeout(() => {
+  const runLoader = (steps) => {
+    let i = 0;
+    loaderScreen.style.display = 'flex';
+    keyScreen.classList.add('hide');
+    const tick = () => {
+      if (i >= steps.length) {
         loaderScreen.classList.add('hide');
         setTimeout(() => {
           loaderScreen.style.display = 'none';
-          panelEl.classList.add('show');
-          document.getElementById('fab').classList.add('show');
-          document.getElementById('watermark').style.display = 'flex';
-          showNotif('Str1ker Hub','Hub loaded successfully','success');
-          setTimeout(() => showNotif('Tip','PUID: ' + PUID,'info'), 900);
-        }, 400);
-      }, 300);
-    }
-  }
-  requestAnimationFrame(tick);
-}
+          panel.classList.add('show');
+          fab.classList.add('show');
+          watermark.style.display = 'flex';
+          keyScreen.style.display = 'none';
+        }, 350);
+        return;
+      }
+      const step = steps[i];
+      loaderStatus.textContent = step.label;
+      loaderPct.textContent = `${step.value}%`;
+      loaderFill.style.width = `${step.value}%`;
+      i++;
+      setTimeout(tick, step.delay || 220);
+    };
+    tick();
+  };
 
-// ── unlock por key manual ou salva
-async function tryUnlock(key) {
-  setStatus('Validando no backend...', 'info');
-  keyBtn.disabled = true;
-  getKeyBtn.disabled = true;
-
-  const r = await apiValidate(key);
-  keyBtn.disabled = false;
-  getKeyBtn.disabled = false;
-
-  if (r && r.valid) {
-    setStatus('Key válida! Carregando hub...', 'success');
-    localStorage.setItem(CFG.KEY_LS, key);
-    localStorage.setItem('str1ker_key', key);
-    setTimeout(startLoader, 400);
-  } else {
-    if (r === null) {
-      setStatus('Erro de conexão (CORS?) — veja o console', 'error');
-      showNotif('Backend','Falha na conexão — CORS ou offline','error');
-    } else {
-      setStatus('Key inválida: ' + (r.reason || 'unknown'), 'error');
-    }
-  }
-}
-
-keyBtn.onclick = () => {
-  const k = keyInput.value.trim();
-  if (!k) { setStatus('Digite uma key primeiro', 'error'); return; }
-  if (!looksLikeKey(k)) { setStatus('Formato de key inválido', 'error'); return; }
-  tryUnlock(k);
-};
-
-keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') keyBtn.click(); });
-
-// ── pegar key no LootLabs
-let pollTimer = null;
-
-getKeyBtn.onclick = async () => {
-  if (pollTimer) return;
-
-  // avisa o backend que esse IP está esperando key
-  try {
-    await fetch(CFG.API + '/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ puid: PUID }),
-    });
-  } catch(_) {}
-
-  const url = CFG.LOOTLABS + '&sub_id=' + encodeURIComponent(PUID);
-  try { await navigator.clipboard.writeText(url); } catch(_) {}
-  window.open(url, '_blank', 'noopener');
-
-  keyPolling.classList.add('show');
-  pollingText.textContent = 'Aguardando task... (0s)';
-  setStatus('Complete a task no LootLabs', 'info');
-  getKeyBtn.disabled = true;
-
-  const start = Date.now();
-  let elapsed = 0;
-
-  pollTimer = setInterval(async () => {
-    elapsed = Math.floor((Date.now() - start) / 1000);
-    pollingText.textContent = `Aguardando task... (${elapsed}s)`;
-
-    const r = await apiGetKey(PUID);
-    if (r && r.found && r.key) {
-      clearInterval(pollTimer);
-      pollTimer = null;
-      keyPolling.classList.remove('show');
-      keyInput.value = r.key;
-      setStatus('Key recebida! Validando...', 'success');
-      getKeyBtn.disabled = false;
-      showNotif('LootLabs','Key recebida automaticamente','success');
-      tryUnlock(r.key);
+  keyBtn.onclick = () => {
+    const value = keyInput.value.trim();
+    if (!value) {
+      keyStatus.className = 'key-status error';
+      keyStatus.textContent = 'Digite uma key válida.';
       return;
     }
-
-    if (elapsed >= 300) {
-      clearInterval(pollTimer);
-      pollTimer = null;
-      keyPolling.classList.remove('show');
-      getKeyBtn.disabled = false;
-      setStatus('Tempo esgotado — tente novamente', 'error');
+    const valid = /^STR1KER-[A-Z0-9-]{4,}$/.test(value);
+    if (!valid) {
+      keyStatus.className = 'key-status error';
+      keyStatus.textContent = 'Formato inválido. Ex.: STR1KER-XXXX-XXXX';
+      return;
     }
-  }, 3000);
-};
+    localStorage.setItem(CFG.KEY_LS, value);
+    keyStatus.className = 'key-status success';
+    keyStatus.textContent = 'Key validada com sucesso.';
+    keyPolling.classList.add('show');
+    pollingText.textContent = 'Verificando task...';
+    runLoader([
+      { label: 'validating key', value: 18, delay: 180 },
+      { label: 'syncing profile', value: 42, delay: 180 },
+      { label: 'loading modules', value: 68, delay: 200 },
+      { label: 'finalizing hub', value: 100, delay: 220 },
+    ]);
+  };
 
-resetKeyLink.onclick = () => {
-  askConfirm('Reset Key','Apaga a key salva e o PUID. Continuar?', () => {
+  getKeyBtn.onclick = () => {
+    window.open(CFG.LOOTLABS, '_blank');
+    keyStatus.className = 'key-status info';
+    keyStatus.textContent = 'Abra uma task e use a key gerada.';
+    keyPolling.classList.add('show');
+    pollingText.textContent = 'Aguardando task...';
+  };
+
+  document.getElementById('resetKeyLink').onclick = () => {
     localStorage.removeItem(CFG.KEY_LS);
-    localStorage.removeItem('str1ker_key');
-    localStorage.removeItem(CFG.PUID_LS);
-    location.reload();
+    keyInput.value = '';
+    keyStatus.className = 'key-status info';
+    keyStatus.textContent = 'Key resetada. Você pode inserir outra.';
+  };
+
+  fab.onclick = () => {
+    panel.style.display = 'flex';
+    fab.classList.remove('show');
+    watermark.style.display = 'flex';
+  };
+
+  if (savedKey) {
+    keyStatus.className = 'key-status success';
+    keyStatus.textContent = 'Key carregada do armazenamento local.';
+    keyPolling.classList.add('show');
+    pollingText.textContent = 'Key ativa e sincronizada.';
+    runLoader([
+      { label: 'loading saved key', value: 30, delay: 160 },
+      { label: 'syncing profile', value: 58, delay: 180 },
+      { label: 'finalizing hub', value: 100, delay: 220 },
+    ]);
+  }
+}
+
+function initScale() {
+  const track = document.getElementById('scaleTrack');
+  const fill = document.getElementById('scaleFill');
+  const val = document.getElementById('scaleVal');
+  const panelEl = document.getElementById('panel');
+  const setScale = (pct) => {
+    const v = Math.max(30, Math.min(100, pct));
+    const scale = v / 100;
+    fill.style.width = `${v}%`;
+    val.textContent = `${v}%`;
+    panelEl.style.transform = `scale(${scale})`;
+    panelEl.style.transformOrigin = 'center center';
+  };
+  track.addEventListener('click', e => {
+    const rect = track.getBoundingClientRect();
+    const pct = ((e.clientX - rect.left) / rect.width) * 100;
+    setScale(pct);
   });
-};
+  setScale(40);
+}
 
-// ═══════════════════════════════════════════════════════════════
-// BOOT
-// ═══════════════════════════════════════════════════════════════
-// check: backend já tem uma key esperando pra esse PUID?
-(async () => {
-  // se já tem key salva e válida, não mostra popup de novo
-  const savedLocal = localStorage.getItem(CFG.KEY_LS) || localStorage.getItem('str1ker_key');
-  if (savedLocal) {
-    const v = await apiValidate(savedLocal);
-    if (v && v.valid) return;  // key local já é válida — não faz nada
-  }
-
-  await new Promise(r => setTimeout(r, 400));
-  let r = null;
-  try {
-    const rr = await fetch(CFG.API + '/get-key-by-ip');
-    r = await rr.json();
-  } catch(_) {}
-  if (r && r.found && r.key) {
-    keyInput.value = r.key;
-    setStatus('Key encontrada! Gerando acesso...', 'success');
-    localStorage.setItem(CFG.KEY_LS, r.key);
-    showNotif('LootLabs','Key resgatada com sucesso','success');
-    setTimeout(() => {
-      showKeyPopup(r.key, () => startLoader());
-    }, 500);
-  }
-})();
+renderCats();
+renderTabs();
+renderCards();
+initKeyScreen();
+initScale();
 </script>
 </body>
 </html>
