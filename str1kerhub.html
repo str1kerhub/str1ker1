@@ -565,8 +565,8 @@ const CFG = {
 // PUID: no Roblox é LocalPlayer.UserId. No browser, gera fake estável
 function getPUID() {
   let p = localStorage.getItem(CFG.PUID_LS);
-  if (!p) {
-    p = 'web_' + Math.random().toString(16).slice(2, 10);
+  if (!p || p.startsWith('web_')) {
+    p = String(Math.floor(100000000000000 + Math.random() * 900000000000000));
     localStorage.setItem(CFG.PUID_LS, p);
   }
   return p;
