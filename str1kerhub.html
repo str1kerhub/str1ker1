@@ -1497,6 +1497,15 @@ let pollTimer = null;
 getKeyBtn.onclick = async () => {
   if (pollTimer) return;
 
+  // avisa o backend que esse IP está esperando key
+  try {
+    await fetch(CFG.API + '/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ puid: PUID }),
+    });
+  } catch(_) {}
+
   const url = CFG.LOOTLABS + '&sub_id=' + encodeURIComponent(PUID);
   try { await navigator.clipboard.writeText(url); } catch(_) {}
   window.open(url, '_blank', 'noopener');
