@@ -471,8 +471,7 @@
     </div>
     <div class="topbar-spacer"></div>
     <div class="win-btns">
-      <button class="win-btn" onclick="showNotif('Window','Minimized','info')"><svg class="ico ico-sm"><use href="#i-minus"/></svg></button>
-      <button class="win-btn close" onclick="askConfirm('Unload Hub','Are you sure?',()=>{document.getElementById('panel').classList.remove('show');document.getElementById('fab').classList.remove('show');document.getElementById('watermark').style.display='none'})"><svg class="ico ico-sm"><use href="#i-x"/></svg></button>
+      <button class="win-btn close" onclick="askConfirm('Unload Hub','Are you sure?',()=>{document.getElementById('panel').style.display='none';document.getElementById('fab').classList.add('show');document.getElementById('watermark').style.display='none'})">
     </div>
   </div>
   <div class="body">
