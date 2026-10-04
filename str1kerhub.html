@@ -1558,8 +1558,15 @@ resetKeyLink.onclick = () => {
 // ═══════════════════════════════════════════════════════════════
 // check: backend já tem uma key esperando pra esse PUID?
 (async () => {
+  // se já tem key salva e válida, não mostra popup de novo
+  const savedLocal = localStorage.getItem(CFG.KEY_LS) || localStorage.getItem('str1ker_key');
+  if (savedLocal) {
+    const v = await apiValidate(savedLocal);
+    if (v && v.valid) return;  // key local já é válida — não faz nada
+  }
+
   await new Promise(r => setTimeout(r, 400));
-    let r = null;
+  let r = null;
   try {
     const rr = await fetch(CFG.API + '/get-key-by-ip');
     r = await rr.json();
