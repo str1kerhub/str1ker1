@@ -1,5 +1,5 @@
 -- language: Luau, file: esp.lua, target: Delta / Krnl / Codex
--- Str1ker ESP v6 — outline atrás, skeleton garantido, damage HP, tracer preto
+-- Str1ker ESP v7 — Box via Square, health 6px, skeleton garantido
 
 local Players=game:GetService("Players")
 local RunService=game:GetService("RunService")
@@ -9,9 +9,9 @@ local LP=Players.LocalPlayer
 
 local ESP={Enabled=false}
 ESP.Config={
-    Box=true,BoxColor=Color3.fromRGB(59,130,246),BoxThickness=2,
-    BoxOutline=true,BoxOutlineColor=Color3.fromRGB(0,0,0),BoxOutlineThickness=4.5,
-    Skeleton=false,SkeletonColor=Color3.fromRGB(240,244,252),SkeletonThickness=2.5,SkeletonOutline=true,SkeletonOutlineColor=Color3.fromRGB(0,0,0),SkeletonOutlineThickness=4.5,
+    Box=true,BoxColor=Color3.fromRGB(59,130,246),BoxThickness=1.8,
+    BoxOutline=true,BoxOutlineColor=Color3.fromRGB(0,0,0),BoxOutlineThickness=4,
+    Skeleton=false,SkeletonColor=Color3.fromRGB(240,244,252),SkeletonThickness=2.5,
     Name=true,ShowDisplayName=true,
     Distance=true,
     HealthBar=true,ShowHPText=true,ShowDamageLayer=true,
@@ -71,59 +71,64 @@ local function make_photo()
     return wrap,box,stroke,grad,img
 end
 
--- ═══ BOX via Lines ═══
--- ORDEM IMPORTA: cria outline PRIMEIRO (fica atrás), main DEPOIS (fica na frente)
-local function make_box_lines()
-    local b={}
-    b.o_top=n_ln(); b.o_right=n_ln(); b.o_bottom=n_ln(); b.o_left=n_ln()   -- atrás
-    b.top=n_ln(); b.right=n_ln(); b.bottom=n_ln(); b.left=n_ln()          -- frente
-    for _,ln in ipairs({b.o_top,b.o_right,b.o_bottom,b.o_left,b.top,b.right,b.bottom,b.left}) do
-        ln.Visible=false; ln.Transparency=0
-    end
-    return b
+-- ═══ BOX via Square (2 empilhados) ═══
+-- ORDEM: cria OUTLINE primeiro (fica atrás), MAIN depois (fica na frente)
+local function make_box()
+    local bg=n_sq()
+    bg.Filled=false
+    bg.Thickness=ESP.Config.BoxOutlineThickness
+    bg.Color=ESP.Config.BoxOutlineColor
+    bg.Transparency=0
+    bg.Visible=false
+    bg.From=Vector2.zero
+    bg.To=Vector2.zero
+
+    local main=n_sq()
+    main.Filled=false
+    main.Thickness=ESP.Config.BoxThickness
+    main.Color=ESP.Config.BoxColor
+    main.Transparency=0
+    main.Visible=false
+    main.From=Vector2.zero
+    main.To=Vector2.zero
+
+    return {bg=bg, main=main}
 end
 
-local function draw_box(b,l,t,r,bo)
-    b.top.From=Vector2.new(l,t);      b.top.To=Vector2.new(r,t)
-    b.right.From=Vector2.new(r,t);    b.right.To=Vector2.new(r,bo)
-    b.bottom.From=Vector2.new(r,bo);  b.bottom.To=Vector2.new(l,bo)
-    b.left.From=Vector2.new(l,bo);    b.left.To=Vector2.new(l,t)
-    b.top.Visible=true; b.right.Visible=true; b.bottom.Visible=true; b.left.Visible=true
+local function draw_box(box,l,t,r,bo)
+    box.bg.From=Vector2.new(l,t)
+    box.bg.To=Vector2.new(r,bo)
+    box.bg.Visible=true
+    box.main.From=Vector2.new(l,t)
+    box.main.To=Vector2.new(r,bo)
+    box.main.Visible=true
 end
 
-local function draw_box_outline(b,l,t,r,bo,pad)
-    b.o_top.From=Vector2.new(l-pad,t-pad);      b.o_top.To=Vector2.new(r+pad,t-pad)
-    b.o_right.From=Vector2.new(r+pad,t-pad);    b.o_right.To=Vector2.new(r+pad,bo+pad)
-    b.o_bottom.From=Vector2.new(r+pad,bo+pad);  b.o_bottom.To=Vector2.new(l-pad,bo+pad)
-    b.o_left.From=Vector2.new(l-pad,bo+pad);    b.o_left.To=Vector2.new(l-pad,t-pad)
-    b.o_top.Visible=true; b.o_right.Visible=true; b.o_bottom.Visible=true; b.o_left.Visible=true
-end
-
-local function hide_box(b)
-    b.top.Visible=false; b.right.Visible=false; b.bottom.Visible=false; b.left.Visible=false
-    b.o_top.Visible=false; b.o_right.Visible=false; b.o_bottom.Visible=false; b.o_left.Visible=false
+local function hide_box(box)
+    box.bg.Visible=false
+    box.main.Visible=false
 end
 
 -- ═══ CACHE ═══
 local function create_cache()
     local c={}
-    c.box=make_box_lines()
+    c.box=make_box()
+
     c.name=n_tx(); c.name.Size=14; c.name.Center=true; c.name.Outline=true; c.name.Color=Color3.fromRGB(240,244,252); c.name.OutlineColor=Color3.new(0,0,0); c.name.Font=2; c.name.Visible=false
     c.distance=n_tx(); c.distance.Size=12; c.distance.Center=true; c.distance.Outline=true; c.distance.Color=Color3.fromRGB(165,200,255); c.distance.OutlineColor=Color3.new(0,0,0); c.distance.Font=2; c.distance.Visible=false
 
-    -- HEALTH: bg → damage → fill (nesta ordem, do fundo pra frente)
-    c.hp_bg=n_sq(); c.hp_bg.Filled=true; c.hp_bg.Color=Color3.fromRGB(0,0,0); c.hp_bg.Transparency=0.3; c.hp_bg.Visible=false
-    c.hp_dmg=n_sq(); c.hp_dmg.Filled=true; c.hp_dmg.Color=Color3.fromRGB(230,40,40); c.hp_dmg.Transparency=0.1; c.hp_dmg.Visible=false
-    c.hp_fill=n_sq(); c.hp_fill.Filled=true; c.hp_fill.Color=Color3.fromRGB(70,220,110); c.hp_fill.Visible=false
+    -- HEALTH: ordem bg → dmg → fill
+    c.hp_bg=n_sq(); c.hp_bg.Filled=true; c.hp_bg.Color=Color3.fromRGB(0,0,0); c.hp_bg.Transparency=0.25; c.hp_bg.Visible=false; c.hp_bg.From=Vector2.zero; c.hp_bg.To=Vector2.zero
+    c.hp_dmg=n_sq(); c.hp_dmg.Filled=true; c.hp_dmg.Color=Color3.fromRGB(230,40,40); c.hp_dmg.Transparency=0; c.hp_dmg.Visible=false; c.hp_dmg.From=Vector2.zero; c.hp_dmg.To=Vector2.zero
+    c.hp_fill=n_sq(); c.hp_fill.Filled=true; c.hp_fill.Color=Color3.fromRGB(70,220,110); c.hp_fill.Transparency=0; c.hp_fill.Visible=false; c.hp_fill.From=Vector2.zero; c.hp_fill.To=Vector2.zero
     c.hp_text=n_tx(); c.hp_text.Size=11; c.hp_text.Center=true; c.hp_text.Outline=true; c.hp_text.Color=Color3.new(1,1,1); c.hp_text.OutlineColor=Color3.new(0,0,0); c.hp_text.Font=2; c.hp_text.Visible=false
 
     -- TRACER: outline primeiro, main depois
-    c.tracer_o=n_ln(); c.tracer_o.Thickness=ESP.Config.TracerOutlineThickness; c.tracer_o.Color=ESP.Config.TracerOutlineColor; c.tracer_o.Transparency=0; c.tracer_o.Visible=false
-    c.tracer=n_ln();   c.tracer.Thickness=ESP.Config.TracerThickness; c.tracer.Color=ESP.Config.TracerColor; c.tracer.Transparency=0; c.tracer.Visible=false
+    c.tracer_o=n_ln(); c.tracer_o.Thickness=ESP.Config.TracerOutlineThickness; c.tracer_o.Color=ESP.Config.TracerOutlineColor; c.tracer_o.Transparency=0; c.tracer_o.Visible=false; c.tracer_o.From=Vector2.zero; c.tracer_o.To=Vector2.zero
+    c.tracer=n_ln();   c.tracer.Thickness=ESP.Config.TracerThickness; c.tracer.Color=ESP.Config.TracerColor; c.tracer.Transparency=0; c.tracer.Visible=false; c.tracer.From=Vector2.zero; c.tracer.To=Vector2.zero
 
     c.head_dot=n_ci(); c.head_dot.Thickness=1; c.head_dot.Filled=true; c.head_dot.Color=Color3.fromRGB(255,80,80); c.head_dot.NumSides=30; c.head_dot.Radius=4; c.head_dot.Visible=false
 
-    -- SKELETON: outline primeiro, main depois
     c.sk={}
     c.photo_wrap,c.photo_box,c.photo_stroke,c.photo_grad,c.photo_img=make_photo()
     return c
@@ -134,9 +139,11 @@ local function destroy_cache(c)
         if typeof(v)=="Instance" then pcall(function() v:Destroy() end)
         elseif typeof(v)=="userdata" then pcall(function() v:Remove() end)
         elseif type(v)=="table" then
+            if v.bg then pcall(function() v.bg:Remove() end); pcall(function() v.main:Remove() end) end
             for _,entry in pairs(v) do
-                if type(entry)=="table" then
-                    for _,ln in pairs(entry) do pcall(function() ln:Remove() end) end
+                if type(entry)=="table" and entry.main then
+                    pcall(function() entry.main:Remove() end)
+                    pcall(function() entry.out:Remove() end)
                 elseif typeof(entry)=="userdata" then
                     pcall(function() entry:Remove() end)
                 end
@@ -147,21 +154,17 @@ end
 
 local function ensure_skeleton(c,count)
     while #c.sk<count do
-        local out=n_ln()   -- atrás
-        local main=n_ln()  -- frente
-        out.Thickness=ESP.Config.SkeletonOutlineThickness
-        out.Color=ESP.Config.SkeletonOutlineColor
-        out.Transparency=0
-        out.Visible=false
+        local main=n_ln()
         main.Thickness=ESP.Config.SkeletonThickness
         main.Color=ESP.Config.SkeletonColor
         main.Transparency=0
         main.Visible=false
-        table.insert(c.sk,{main=main,out=out})
+        main.From=Vector2.zero
+        main.To=Vector2.zero
+        table.insert(c.sk,{main=main})
     end
     for i=count+1,#c.sk do
         c.sk[i].main.Visible=false
-        c.sk[i].out.Visible=false
     end
 end
 
@@ -209,25 +212,16 @@ local function render_skeleton(c,char)
             local a=w2s(p1.Position)
             local b=w2s(p2.Position)
             if a and b then
-                -- OUTLINE (atrás)
-                if ESP.Config.SkeletonOutline then
-                    entry.out.From=a; entry.out.To=b
-                    entry.out.Color=ESP.Config.SkeletonOutlineColor
-                    entry.out.Thickness=ESP.Config.SkeletonOutlineThickness
-                    entry.out.Visible=true
-                else
-                    entry.out.Visible=false
-                end
-                -- MAIN (frente)
-                entry.main.From=a; entry.main.To=b
+                entry.main.From=a
+                entry.main.To=b
                 entry.main.Color=ESP.Config.SkeletonColor
                 entry.main.Thickness=ESP.Config.SkeletonThickness
                 entry.main.Visible=true
             else
-                entry.main.Visible=false; entry.out.Visible=false
+                entry.main.Visible=false
             end
         else
-            entry.main.Visible=false; entry.out.Visible=false
+            entry.main.Visible=false
         end
     end
 end
@@ -255,18 +249,10 @@ local function render(plr,c)
 
     -- ═══ BOX ═══
     if ESP.Config.Box then
-        if ESP.Config.BoxOutline then
-            local pad=math.max(1,ESP.Config.BoxOutlineThickness/3)
-            c.box.o_top.Color=ESP.Config.BoxOutlineColor
-            c.box.o_top.Thickness=ESP.Config.BoxOutlineThickness
-            draw_box_outline(c.box,left,topY,right,botY,pad)
-        else
-            c.box.o_top.Visible=false; c.box.o_right.Visible=false; c.box.o_bottom.Visible=false; c.box.o_left.Visible=false
-        end
-        c.box.top.Color=ESP.Config.BoxColor;    c.box.top.Thickness=ESP.Config.BoxThickness
-        c.box.right.Color=ESP.Config.BoxColor;  c.box.right.Thickness=ESP.Config.BoxThickness
-        c.box.bottom.Color=ESP.Config.BoxColor; c.box.bottom.Thickness=ESP.Config.BoxThickness
-        c.box.left.Color=ESP.Config.BoxColor;   c.box.left.Thickness=ESP.Config.BoxThickness
+        c.box.bg.Thickness=ESP.Config.BoxOutline ? ESP.Config.BoxOutlineThickness : 0
+        c.box.bg.Color=ESP.Config.BoxOutlineColor
+        c.box.main.Color=ESP.Config.BoxColor
+        c.box.main.Thickness=ESP.Config.BoxThickness
         draw_box(c.box,left,topY,right,botY)
     else
         hide_box(c.box)
@@ -276,7 +262,7 @@ local function render(plr,c)
     if ESP.Config.Skeleton then
         render_skeleton(c,char)
     else
-        for _,entry in ipairs(c.sk) do entry.main.Visible=false; entry.out.Visible=false end
+        for _,entry in ipairs(c.sk) do entry.main.Visible=false end
     end
 
     -- ═══ NAME ═══
@@ -297,11 +283,11 @@ local function render(plr,c)
         c.distance.Visible=false
     end
 
-    -- ═══ HEALTH (3 camadas) ═══
+    -- ═══ HEALTH (6px de largura) ═══
     if ESP.Config.HealthBar then
         local pct=math.clamp(hum.Health/hum.MaxHealth,0,1)
-        local bLeft=left-9
-        local bRight=left-4
+        local bLeft=left-11
+        local bRight=left-5
         local barH=botY-topY
 
         -- fundo preto
@@ -309,8 +295,8 @@ local function render(plr,c)
         c.hp_bg.From=Vector2.new(bLeft,topY)
         c.hp_bg.To=Vector2.new(bRight,botY)
 
-        -- dano (vermelho) — ocupa da parte do topo até o nível da vida atual
-        if ESP.Config.ShowDamageLayer and pct<1 then
+        -- damage vermelho (só aparece quando perdeu vida)
+        if ESP.Config.ShowDamageLayer and pct<0.99 then
             c.hp_dmg.Visible=true
             c.hp_dmg.From=Vector2.new(bLeft,topY)
             c.hp_dmg.To=Vector2.new(bRight,topY+barH*(1-pct))
@@ -318,7 +304,7 @@ local function render(plr,c)
             c.hp_dmg.Visible=false
         end
 
-        -- vida (cor por %)
+        -- vida
         c.hp_fill.Visible=true
         c.hp_fill.From=Vector2.new(bLeft,botY-barH*pct)
         c.hp_fill.To=Vector2.new(bRight,botY)
@@ -326,7 +312,7 @@ local function render(plr,c)
 
         if ESP.Config.ShowHPText then
             c.hp_text.Visible=true
-            c.hp_text.Position=Vector2.new(bLeft-15,(topY+botY)/2)
+            c.hp_text.Position=Vector2.new(bLeft-16,(topY+botY)/2)
             c.hp_text.Text=string.format("%d%%",math.floor(pct*100))
             c.hp_text.Color=hp_color(pct)
         else
@@ -340,17 +326,11 @@ local function render(plr,c)
     if ESP.Config.Tracer then
         local vp=Camera.ViewportSize
         local fx,fy=vp.X/2,vp.Y
-        -- OUTLINE (atrás, mais grosso)
-        if ESP.Config.TracerOutline then
-            c.tracer_o.Visible=true
-            c.tracer_o.Color=ESP.Config.TracerOutlineColor
-            c.tracer_o.Thickness=ESP.Config.TracerOutlineThickness
-            c.tracer_o.From=Vector2.new(fx,fy)
-            c.tracer_o.To=Vector2.new(cx,botY)
-        else
-            c.tracer_o.Visible=false
-        end
-        -- MAIN (frente)
+        c.tracer_o.Visible=true
+        c.tracer_o.Color=ESP.Config.TracerOutlineColor
+        c.tracer_o.Thickness=ESP.Config.TracerOutlineThickness
+        c.tracer_o.From=Vector2.new(fx,fy)
+        c.tracer_o.To=Vector2.new(cx,botY)
         c.tracer.Visible=true
         c.tracer.Color=ESP.Config.TracerColor
         c.tracer.Thickness=ESP.Config.TracerThickness
@@ -397,7 +377,7 @@ local function hide(c)
     c.hp_bg.Visible=false; c.hp_dmg.Visible=false; c.hp_fill.Visible=false; c.hp_text.Visible=false
     c.tracer.Visible=false; c.tracer_o.Visible=false
     c.head_dot.Visible=false
-    for _,entry in ipairs(c.sk) do entry.main.Visible=false; entry.out.Visible=false end
+    for _,entry in ipairs(c.sk) do entry.main.Visible=false end
     if c.photo_wrap then c.photo_wrap.Visible=false end
 end
 
