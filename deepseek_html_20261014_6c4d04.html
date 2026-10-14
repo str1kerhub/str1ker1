@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Str1ker Hub</title>
+<style>
+  :root {
+    --bg-deep: #050810;
+    --bg-panel: rgba(8, 14, 28, 0.96);
+    --bg-sidebar: rgba(4, 8, 18, 0.85);
+    --bg-card: rgba(16, 26, 48, 0.75);
+    --bg-card-hover: rgba(26, 42, 72, 0.9);
+    --border: rgba(96, 165, 250, 0.10);
+    --border-hi: rgba(96, 165, 250, 0.32);
+    --accent: #3b82f6;
+    --accent-lt: #60a5fa;
+    --accent-dark: #1e40af;
+    --cyan: #22d3ee;
+    --text: #f0f4fc;
+    --text-dim: #8c9cb8;
+    --text-muted: #3a4a68;
+    --green: #46dc6e;
+    --yellow: #ffc83c;
+    --red: #ff3030;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body {
+    width:100%; height:100%;
+    background: radial-gradient(ellipse at 30% 30%, #0a1528 0%, #030510 70%);
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  .ico { width:16px; height:16px; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none; flex-shrink:0; pointer-events:none; }
+  .ico-sm { width:14px; height:14px; }
+  .ico-lg { width:20px; height:20px; }
+
+  @keyframes popIn       { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+  @keyframes popOut      { to   { opacity:0; transform:scale(0.94); } }
+  @keyframes fadeIn      { from { opacity:0; } to { opacity:1; } }
+  @keyframes fadeOut     { to   { opacity:0; visibility:hidden; } }
+  @keyframes slideUp     { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes slideRight  { from { opacity:0; transform:translateX(50px) scale(0.96); } to { opacity:1; transform:translateX(0) scale(1); } }
+  @keyframes slideOut    { to   { opacity:0; transform:translateX(50px) scale(0.96); } }
+  @keyframes pulse       { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+  @keyframes float       { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+  @keyframes barShrink   { from { width:100%; } to { width:0%; } }
+  @keyframes shimmer     { from { transform:translateX(-100%); } to { transform:translateX(100%); } }
+  @keyframes rowIn       { from { opacity:0; transform:translateX(-8px); } to { opacity:1; transform:translateX(0); } }
+  @keyframes rowOut      { from { opacity:1; transform:translateX(0); max-height:32px; } to { opacity:0; transform:translateX(-8px); max-height:0; } }
+  @keyframes pulseDot    { 0%,100% { opacity:0.4; transform:scale(0.9); } 50% { opacity:1; transform:scale(1.15); } }
+  @keyframes glowPulse   { 0%,100% { filter:drop-shadow(0 0 20px rgba(59,130,246,0.6)); } 50% { filter:drop-shadow(0 0 40px rgba(59,130,246,1)) drop-shadow(0 0 20px rgba(34,211,238,0.5)); } }
+  @keyframes scaleIn     { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+
+  /* ═══════════════ LOADER ═══════════════ */
+  .loader-stage {
+    position: fixed; inset:0; z-index:1500;
+    background: radial-gradient(ellipse at 50% 50%, rgba(59,130,246,0.10), transparent 60%), #030510;
+    display: none; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .loader-stage.show { display: flex; animation: fadeIn 0.5s ease; }
+  .loader-stage.hide { animation: fadeOut 0.5s ease forwards; }
+  .loader-card {
+    width: min(92vw, 640px);
+    height: min(88vh, 500px);
+    background: linear-gradient(180deg, rgba(12,20,42,0.98), rgba(8,14,28,0.98));
+    border: 1px solid rgba(96,165,250,0.18);
+    border-radius: 20px;
+    padding: 28px 30px 24px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.85), 0 0 100px rgba(59,130,246,0.15);
+    animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    overflow: hidden; display: flex; flex-direction: column; position: relative;
+  }
+  .loader-card::before {
+    content: ''; position: absolute; top:0; left:32px; right:32px; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(96,165,250,0.9), transparent);
+  }
+
+  .loader-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; flex-shrink: 0; }
+  .loader-logo {
+    width: 56px; height: 56px; border-radius: 15px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 26px; color: #fff;
+    box-shadow: 0 0 30px rgba(59,130,246,0.6);
+    flex-shrink: 0;
+    animation: glowPulse 2.5s ease-in-out infinite;
+    overflow: hidden;
+  }
+  .loader-logo img { width: 100%; height: 100%; object-fit: contain; }
+  .loader-title { font-size: 19px; font-weight: 900; letter-spacing: 0.3px; color: #fff; }
+  .loader-tag { font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; margin-top: 4px; }
+  .loader-badge {
+    margin-left: auto;
+    padding: 8px 15px;
+    border: 1px solid rgba(70,220,110,0.5);
+    background: rgba(70,220,110,0.08);
+    border-radius: 999px;
+    font-size: 10px; font-weight: 900; letter-spacing: 1.5px;
+    color: var(--green); text-transform: uppercase;
+    display: flex; align-items: center; gap: 7px; flex-shrink: 0;
+  }
+  .loader-badge::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 10px var(--green);
+    animation: pulseDot 1.8s ease-in-out infinite;
+  }
+
+  .loader-statusrow {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; gap: 12px; flex-shrink: 0;
+  }
+  .loader-statustext { font-size: 14.5px; font-weight: 600; color: var(--text); transition: color 0.3s; }
+  .loader-pct { font-size: 15px; font-weight: 800; color: var(--accent-lt); font-family: 'JetBrains Mono', monospace; }
+  .loader-track {
+    width: 100%; height: 5px;
+    background: rgba(12,20,42,0.9);
+    border-radius: 3px; overflow: hidden;
+    margin-bottom: 26px; flex-shrink: 0;
+    border: 1px solid rgba(96,165,250,0.08);
+    position: relative;
+  }
+  .loader-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent-dark), var(--accent), var(--cyan));
+    border-radius: 3px; position: relative;
+    transition: width 0.3s cubic-bezier(0.34,1.2,0.64,1);
+    box-shadow: 0 0 15px rgba(59,130,246,0.8);
+  }
+  .loader-fill::after {
+    content: ''; position: absolute; inset:0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  .activity-box {
+    background: rgba(4,8,18,0.6);
+    border: 1px solid rgba(96,165,250,0.10);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    height: 220px; overflow: hidden;
+    position: relative; flex: 1; min-height: 0;
+  }
+  .activity-box::before {
+    content: ''; position: absolute; top:0; left:0; right:0; height:26px;
+    background: linear-gradient(180deg, rgba(4,8,18,1), rgba(4,8,18,0));
+    z-index: 2; pointer-events: none;
+    border-top-left-radius: 12px; border-top-right-radius: 12px;
+  }
+  .activity-title {
+    font-size: 10px; font-weight: 800; letter-spacing: 2px;
+    color: var(--text-muted); text-transform: uppercase;
+    margin-bottom: 14px; position: sticky; top: 0;
+  }
+  .activity-list {
+    display: flex; flex-direction: column; gap: 10px;
+    justify-content: flex-end; min-height: 0;
+    height: calc(100% - 26px); overflow: hidden;
+  }
+  .activity-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 12.5px; color: var(--text-dim); line-height: 1.4;
+    animation: rowIn 0.35s ease both; flex-shrink: 0;
+  }
+  .activity-row .adot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0; margin-top: 6px;
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .activity-row.done .adot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .activity-row.active .adot {
+    background: var(--accent-lt); box-shadow: 0 0 12px var(--accent-lt);
+    animation: pulseDot 1.2s ease-in-out infinite;
+  }
+  .activity-row.done { color: #a8b8d0; }
+  .activity-row.leaving { animation: rowOut 0.35s ease forwards; overflow: hidden; }
+
+  .loader-footer {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11.5px; color: var(--text-dim); font-weight: 600; flex-shrink: 0;
+  }
+  .loader-footer .fdot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 10px var(--green);
+    animation: pulseDot 2s ease-in-out infinite;
+  }
+
+  /* ═══════════════ APP ═══════════════ */
+  .app {
+    position: relative;
+    width: min(96vw, 1180px);
+    height: min(90vh, 720px);
+    background: var(--bg-panel);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.85), 0 0 100px rgba(59,130,246,0.08);
+    display: none;
+    flex-direction: column; overflow: hidden;
+  }
+  .app.show { display: flex; animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+  .app.hide { animation: popOut 0.3s ease forwards; }
+  .app::before {
+    content: ''; position: absolute; top:0; left:40px; right:40px; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(96,165,250,0.6), transparent);
+    pointer-events: none; z-index: 2;
+  }
+
+  .topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(59,130,246,0.05), transparent);
+    flex-shrink: 0; position: relative;
+  }
+  .topbar::after {
+    content: ''; position: absolute; bottom:-1px; left:20px; right:20px; height:1px;
+    background: linear-gradient(90deg, rgba(96,165,250,0.3), transparent 70%);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 17px; color: #fff;
+    box-shadow: 0 0 22px rgba(59,130,246,0.5);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+  .brand-text { display: flex; flex-direction: column; }
+  .brand-name {
+    font-size: 14px; font-weight: 900; letter-spacing: 0.8px;
+    background: linear-gradient(90deg, #fff, #a5c8ff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.1;
+  }
+  .brand-sub {
+    font-size: 9px; color: var(--text-dim); font-weight: 600;
+    letter-spacing: 1.2px; text-transform: uppercase; margin-top: 2px;
+  }
+
+  .topbar-spacer { flex: 1; }
+
+  .lang-switch {
+    display: flex; align-items: center; gap: 2px;
+    padding: 3px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .lang-btn {
+    padding: 4px 9px;
+    background: transparent; border: none;
+    color: var(--text-dim); font-family: inherit;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.5px;
+    border-radius: 5px; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .lang-btn.active { background: rgba(59,130,246,0.25); color: var(--accent-lt); }
+  .lang-btn:hover:not(.active) { color: var(--text); }
+
+  .user-chip {
+    display: flex; align-items: center; gap: 8px;
+    padding: 5px 12px 5px 6px;
+    background: rgba(59,130,246,0.10);
+    border: 1px solid rgba(96,165,250,0.25);
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700; color: var(--text);
+  }
+  .user-chip img { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; background: rgba(59,130,246,0.2); }
+
+  .win-btns { display: flex; gap: 4px; }
+  .win-btn {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: transparent; border: none; color: var(--text-dim);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .win-btn:hover { background: rgba(96,165,250,0.10); color: var(--text); }
+  .win-btn.close:hover { background: rgba(255,48,48,0.15); color: var(--red); }
+
+  .body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+
+  .sidebar {
+    width: 180px; flex-shrink: 0;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 14px 10px;
+    display: flex; flex-direction: column; gap: 2px;
+    overflow-y: auto;
+  }
+  .sidebar::-webkit-scrollbar { width: 0; }
+  .cat-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 11px; border-radius: var(--radius-sm);
+    border: none; background: transparent;
+    color: var(--text-dim); font-family: inherit; font-size: 12px; font-weight: 500;
+    cursor: pointer; text-align: left; width: 100%;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+    position: relative;
+  }
+  .cat-btn:hover { background: rgba(96,165,250,0.06); color: var(--text); transform: translateX(2px); }
+  .cat-btn.active { background: rgba(59,130,246,0.15); color: var(--text); font-weight: 600; }
+  .cat-btn.active::before {
+    content: ''; position: absolute; left:0; top:50%; transform: translateY(-50%);
+    width: 2px; height: 55%; background: var(--accent); border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .cat-btn.active .ico { color: var(--accent-lt); }
+  .cat-sep { height:1px; background: var(--border); margin: 6px 4px; }
+
+  .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+  .tabs {
+    display: flex; gap: 4px; padding: 12px 18px 10px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.20);
+    overflow-x: auto; flex-shrink: 0; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: var(--radius-sm);
+    border: none; background: transparent;
+    color: var(--text-dim); font-family: inherit; font-size: 11px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active {
+    background: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(30,64,175,0.22));
+    color: var(--text);
+    box-shadow: 0 0 14px rgba(59,130,246,0.32);
+    animation: scaleIn 0.2s ease;
+  }
+  .tab.active .ico { color: var(--accent-lt); }
+
+  .cards {
+    flex: 1; overflow-y: auto; padding: 18px 20px;
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 0;
+  }
+  .cards::-webkit-scrollbar { width: 4px; }
+  .cards::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--accent-dark), var(--accent)); border-radius: 3px; }
+
+  .page-head { margin-bottom: 12px; animation: slideUp 0.35s ease; }
+  .page-title { font-size: 19px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 3px; }
+  .page-sub { font-size: 11.5px; color: var(--text-dim); }
+
+  .sec-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 2px 5px;
+    font-size: 9.5px; font-weight: 700; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 1.4px;
+  }
+  .sec-head::before {
+    content: ''; width: 2px; height: 11px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    border-radius: 2px; box-shadow: 0 0 8px var(--accent);
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 12px 15px;
+    display: flex; align-items: center; gap: 14px;
+    position: relative; overflow: hidden;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+    animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1) backwards;
+  }
+  .card::before {
+    content: ''; position: absolute; inset:0;
+    background: linear-gradient(90deg, transparent, rgba(96,165,250,0.08), transparent);
+    transform: translateX(-100%); transition: transform 0.7s; pointer-events: none;
+  }
+  .card::after {
+    content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 2px; height: 0;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    border-radius: 0 2px 2px 0; box-shadow: 0 0 10px var(--accent);
+    transition: height 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .card:hover::before { transform: translateX(100%); }
+  .card:hover::after { height: 65%; }
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hi);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.4), 0 0 20px rgba(59,130,246,0.12);
+  }
+  .card.static { cursor: default; }
+  .card.static::after { display: none; }
+  .card.static:hover { transform: none; }
+
+  .card-body { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .card-title { font-size: 12.5px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .card-desc { font-size: 10.5px; color: var(--text-dim); line-height: 1.4; }
+  .card-trailing { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  .toggle {
+    width: 42px; height: 23px; border-radius: 12px;
+    background: rgba(70,90,120,0.7);
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative; cursor: pointer; flex-shrink: 0;
+    transition: background 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s;
+  }
+  .toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 17px; height: 17px; background: #fff; border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    transition: left 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .toggle.on {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border-color: var(--accent);
+    box-shadow: 0 0 16px rgba(59,130,246,0.6);
+  }
+  .toggle.on::after { left: calc(100% - 19px); }
+
+  .slider-wrap { display: flex; align-items: center; gap: 10px; flex: 1; max-width: 200px; }
+  .slider-track {
+    flex: 1; height: 3px; background: rgba(96,165,250,0.15);
+    border-radius: 2px; position: relative; cursor: pointer;
+  }
+  .slider-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+    border-radius: 2px; position: relative;
+    box-shadow: 0 0 8px rgba(59,130,246,0.6);
+    transition: width 0.1s linear;
+  }
+  .slider-fill::after {
+    content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%);
+    width: 11px; height: 11px; background: #fff;
+    border: 2px solid var(--accent); border-radius: 50%;
+    box-shadow: 0 0 10px rgba(59,130,246,0.9);
+    transition: transform 0.15s;
+  }
+  .slider-track:hover .slider-fill::after { transform: translateY(-50%) scale(1.15); }
+  .slider-val {
+    min-width: 42px; padding: 3px 8px;
+    background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px; text-align: center;
+    font-size: 10.5px; font-weight: 800; color: var(--accent-lt);
+    font-family: 'JetBrains Mono', monospace; flex-shrink: 0;
+  }
+
+  .dropdown {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px; background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 7px; cursor: pointer;
+    font-size: 10.5px; font-weight: 700; color: var(--text);
+    flex-shrink: 0; min-width: 110px; justify-content: space-between;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .dropdown:hover { border-color: var(--border-hi); background: rgba(96,165,250,0.10); }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 6px;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .badge.auto { background: rgba(70,220,110,0.12); border: 1px solid rgba(70,220,110,0.35); color: var(--green); }
+  .badge.required { background: rgba(59,130,246,0.14); border: 1px solid rgba(59,130,246,0.4); color: var(--accent-lt); }
+  .badge.pro { background: rgba(165,200,255,0.15); border: 1px solid rgba(165,200,255,0.4); color: #a5c8ff; }
+
+  .avatar-panel {
+    width: 250px; flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(10,20,42,0.5), rgba(3,5,16,0.9));
+    border-left: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 24px 20px;
+  }
+  .avatar-panel::after {
+    content: ''; position: absolute; inset:0;
+    background-image: repeating-linear-gradient(-45deg, transparent, transparent 14px, rgba(96,165,250,0.025) 14px, rgba(96,165,250,0.025) 15px);
+    pointer-events: none;
+  }
+  .avatar-glow {
+    position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(59,130,246,0.45), rgba(30,64,175,0.15) 40%, transparent 70%);
+    filter: blur(50px);
+    animation: pulse 4.5s ease-in-out infinite;
+    z-index: 1;
+  }
+  .avatar-wrap {
+    position: relative; z-index: 2;
+    width: 190px; height: 290px;
+    display: flex; align-items: center; justify-content: center;
+    animation: float 5.5s ease-in-out infinite;
+  }
+  .avatar-img {
+    max-width: 100%; max-height: 100%;
+    filter: drop-shadow(0 12px 40px rgba(59,130,246,0.55));
+    transition: opacity 0.6s ease, transform 0.3s ease;
+  }
+  .avatar-img:hover { transform: scale(1.03); }
+  .avatar-name {
+    position: relative; z-index: 3;
+    margin-top: 16px;
+    font-size: 15px; font-weight: 800; color: var(--text);
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+  .avatar-name span { color: var(--accent-lt); }
+  .avatar-tag {
+    position: relative; z-index: 3;
+    margin-top: 5px;
+    font-size: 10px; color: var(--text-dim);
+    font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+  }
+
+  .notifs {
+    position: fixed; bottom: 22px; right: 22px;
+    display: flex; flex-direction: column-reverse; gap: 10px;
+    z-index: 500; max-width: 320px; pointer-events: none;
+  }
+  .notif {
+    background: linear-gradient(180deg, rgba(12,20,42,0.98), rgba(8,14,28,0.98));
+    border: 1px solid var(--border-hi);
+    border-radius: 12px;
+    padding: 13px 15px 15px;
+    display: flex; align-items: flex-start; gap: 11px;
+    box-shadow: 0 14px 44px rgba(0,0,0,0.7), 0 0 40px rgba(59,130,246,0.15);
+    animation: slideRight 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: auto; position: relative; overflow: hidden;
+    min-width: 260px;
+  }
+  .notif.out { animation: slideOut 0.35s ease forwards; }
+  .notif::before {
+    content: ''; position: absolute; top:0; left:16px; right:16px; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(96,165,250,0.5), transparent);
+  }
+  .notif-icon {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-lt); flex-shrink: 0;
+  }
+  .notif.success .notif-icon { background: rgba(70,220,110,0.15); border-color: rgba(70,220,110,0.45); color: var(--green); }
+  .notif.warn .notif-icon { background: rgba(255,200,60,0.15); border-color: rgba(255,200,60,0.45); color: var(--yellow); }
+  .notif.error .notif-icon { background: rgba(255,48,48,0.15); border-color: rgba(255,48,48,0.45); color: var(--red); }
+  .notif-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .notif-title { font-size: 12px; font-weight: 700; color: var(--text); }
+  .notif-msg { font-size: 10.5px; color: var(--text-dim); line-height: 1.45; }
+  .notif-bar {
+    position: absolute; left: 13px; right: 13px; bottom: 5px;
+    height: 2px; background: rgba(255,255,255,0.04);
+    border-radius: 2px; overflow: hidden;
+  }
+  .notif-bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--green), rgba(70,220,110,0.4));
+    animation: barShrink 4s linear forwards;
+  }
+  .notif.warn .notif-bar-fill { background: linear-gradient(90deg, var(--yellow), rgba(255,200,60,0.4)); }
+  .notif.info .notif-bar-fill { background: linear-gradient(90deg, var(--accent), rgba(59,130,246,0.4)); }
+  .notif.error .notif-bar-fill { background: linear-gradient(90deg, var(--red), rgba(255,48,48,0.4)); }
+
+  .popup-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.25s ease;
+  }
+  .popup-overlay.closing { animation: fadeOut 0.2s ease forwards; }
+  .popup {
+    background: linear-gradient(180deg, rgba(12,20,42,0.99), rgba(8,14,28,0.99));
+    border: 1px solid var(--border-hi);
+    border-radius: 14px;
+    padding: 24px 26px 22px;
+    min-width: 300px; max-width: 420px; width: 100%;
+    box-shadow: 0 28px 90px rgba(0,0,0,0.95), 0 0 60px rgba(59,130,246,0.2);
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative; overflow: hidden;
+  }
+  .popup::before {
+    content: ''; position: absolute; top:0; left:26px; right:26px; height:2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border-radius: 2px;
+  }
+  .popup-icon {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.4);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-lt); margin-bottom: 16px;
+    animation: scaleIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .popup-icon.warn { background: rgba(255,200,60,0.15); border-color: rgba(255,200,60,0.45); color: var(--yellow); }
+  .popup-icon.success { background: rgba(70,220,110,0.15); border-color: rgba(70,220,110,0.45); color: var(--green); }
+  .popup-title { font-size: 17px; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.01em; }
+  .popup-msg { font-size: 12px; color: var(--text-dim); line-height: 1.55; margin-bottom: 18px; }
+  .popup-input {
+    width: 100%; padding: 11px 13px;
+    background: rgba(0,0,0,0.45); border: 1px solid var(--border);
+    border-radius: 9px; color: var(--text);
+    font-family: inherit; font-size: 12.5px; margin-bottom: 18px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .popup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+  .popup-input::placeholder { color: var(--text-muted); }
+  .popup-actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .popup-btn {
+    padding: 10px 20px; border-radius: 9px; border: 1px solid transparent;
+    font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+    transition: all 0.2s; min-width: 90px;
+  }
+  .popup-btn.cancel {
+    background: rgba(50,70,100,0.5); color: var(--text-dim);
+    border-color: rgba(255,255,255,0.06);
+  }
+  .popup-btn.cancel:hover { background: rgba(70,90,120,0.7); color: var(--text); transform: translateY(-1px); }
+  .popup-btn.confirm {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff; box-shadow: 0 0 18px rgba(59,130,246,0.55);
+  }
+  .popup-btn.confirm:hover { box-shadow: 0 0 30px rgba(59,130,246,0.8); transform: translateY(-2px); }
+
+  .watermark {
+    position: fixed; top: 14px; left: 14px; z-index: 900;
+    padding: 6px 12px;
+    background: rgba(8,14,28,0.9);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    color: #a5c8ff;
+    display: none; align-items: center; gap: 8px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .watermark.show { display: flex; }
+  .watermark .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #46dc6e;
+    box-shadow: 0 0 8px #46dc6e;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .watermark img { width: 16px; height: 16px; object-fit: contain; }
+
+  @media (max-width: 950px) {
+    .avatar-panel { display: none; }
+    .app { width: 98vw; height: 94vh; }
+    .sidebar { width: 150px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ WATERMARK ═══════════════ -->
+<div class="watermark" id="watermark">
+  <img src="https://assetdelivery.roblox.com/v1/asset/?id=135682258411683" 
+       alt="Logo"
+       onerror="this.style.display='none'">
+  <span class="dot"></span>
+  <span>STR1KER · v3.0 · FREE</span>
+</div>
+
+<!-- ═══════════════ LOADER ═══════════════ -->
+<div class="loader-stage show" id="loaderStage">
+  <div class="loader-card">
+    <div class="loader-head">
+      <div class="loader-logo">
+        <img src="https://assetdelivery.roblox.com/v1/asset/?id=135682258411683" 
+             alt="S"
+             onerror="this.style.display='none';this.parentElement.textContent='S';">
+      </div>
+      <div>
+        <div class="loader-title">Str1ker Hub</div>
+        <div class="loader-tag">Secure Connection · v3.2</div>
+      </div>
+      <div class="loader-badge" id="loaderBadge">Protected</div>
+    </div>
+    <div class="loader-statusrow">
+      <div class="loader-statustext" id="loaderStatusText">Verifying session</div>
+      <div class="loader-pct" id="loaderPct">0%</div>
+    </div>
+    <div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="activity-box">
+      <div class="activity-title">Live Activity</div>
+      <div class="activity-list" id="activityList"></div>
+    </div>
+    <div class="loader-footer"><div class="fdot"></div><span>Encrypted connection active</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div class="app" id="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="https://assetdelivery.roblox.com/v1/asset/?id=135682258411683" 
+             alt="S"
+             onerror="this.style.display='none';this.parentElement.textContent='S';">
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">STR1KER</div>
+        <div class="brand-sub" id="brandSub">PvP · Blox Fruits</div>
+      </div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="pt">PT</button>
+    </div>
+    <div class="user-chip">
+      <img id="chipAvatar" 
+           src="https://www.roblox.com/headshot-thumbnail/image?userId=8862066334&width=48&height=48&format=png"
+           alt="batata_ino28"
+           onerror="this.style.display='none'">
+      <span id="chipName">batata_ino28</span>
+    </div>
+    <div class="win-btns">
+      <button class="win-btn" id="minBtn" title="Minimize">
+        <svg class="ico ico-sm"><use href="#i-minus"/></svg>
+      </button>
+      <button class="win-btn close" id="closeBtn" title="Close">
+        <svg class="ico ico-sm"><use href="#i-x"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="body">
+    <aside class="sidebar"><nav id="catNav"></nav></aside>
+    <main class="content">
+      <div class="tabs" id="tabs"></div>
+      <div class="cards" id="cards"></div>
+    </main>
+    <aside class="avatar-panel">
+      <div class="avatar-glow"></div>
+      <div class="avatar-wrap">
+        <img class="avatar-img" id="bigAvatar" 
+             src="https://www.roblox.com/avatar-thumbnail/image?userId=8862066334&width=420&height=420&format=png"
+             alt="batata_ino28"
+             onerror="this.src='https://www.roblox.com/headshot-thumbnail/image?userId=8862066334&width=420&height=420&format=png';this.onerror=null;">
+      </div>
+      <div class="avatar-name" id="bigName"><span>batata_ino28</span></div>
+      <div class="avatar-tag" id="bigTag">ID 8862066334</div>
+    </aside>
+  </div>
+</div>
+
+<div class="notifs" id="notifs"></div>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="i-minus" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-crosshair" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="22" y1="12" x2="18" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="12" x2="2" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="6" x2="12" y2="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="22" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-swords" viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 17.5L21 6V3h-3L6.5 14.5M11 19l-6-6M8 16l-4 4M5 21l-2-2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-move" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><polyline points="9 5 12 2 15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><polyline points="15 19 12 22 9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><polyline points="19 9 22 12 19 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/><line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.18V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 6.6 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 2.82-1.18V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 2.82 1.18l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-ghost" viewBox="0 0 24 24"><path d="M9 10h.01M15 10h.01M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mouse" viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="i-workflow" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="4" y1="22" x2="4" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="17 21 17 13 7 13 7 21" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="12" width="7" height="9" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="16" width="7" height="5" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="8" x2="12.01" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="8" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="16" x2="12.01" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+</defs></svg>
+
+<script>
+const I18N = {
+  en: {
+    brandSub: 'PvP · Blox Fruits',
+    loaderBadge: 'Protected',
+    loaderFooter: 'Encrypted connection active',
+    activityTitle: 'Live Activity',
+    loaderSteps: [
+      {at:0,   label:'Environment verified.',           status:'Verifying session'},
+      {at:8,   label:'Loading config file...',           status:'Loading config'},
+      {at:16,  label:'Establishing secure session...',   status:'Connecting'},
+      {at:24,  label:'Secure session established.',      status:'Authenticating'},
+      {at:32,  label:'Handshake: 3.101s',                status:'Handshake'},
+      {at:40,  label:'Verifying key...',                 status:'Verifying key'},
+      {at:48,  label:'Key valid.',                       status:'Key verified'},
+      {at:56,  label:'Loading hub modules...',           status:'Loading modules'},
+      {at:64,  label:'Module: ESP loaded.',              status:'Loading ESP'},
+      {at:70,  label:'Module: Aimbot loaded.',           status:'Loading Aimbot'},
+      {at:76,  label:'Module: Extras loaded.',           status:'Loading Extras'},
+      {at:82,  label:'Applying security patch...',       status:'Securing'},
+      {at:88,  label:'Integrity check passed.',          status:'Verifying'},
+      {at:94,  label:'Registering hotkeys...',           status:'Hotkeys'},
+      {at:98,  label:'Finalizing...',                    status:'Finalizing'},
+      {at:100, label:'Ready.',                           status:'Ready'}
+    ],
+    welcomeTitle: 'Str1ker Hub',
+    welcomeMsg: 'Welcome, {user}',
+    configTitle: 'Aimbot',
+    configMsg: 'Configure in the tabs',
+    enabled: 'Enabled',
+    disabled: 'Disabled',
+    setTo: 'Set to {v}',
+    added: 'Added',
+    cleared: 'Cleared',
+    copied: 'Copied',
+    done: 'Done',
+    spun: 'Spinning...',
+    stored: 'Stored',
+    premiumOpen: 'Opening Discord...',
+    urlSaved: 'URL saved',
+    testSent: 'Test sent',
+    cancel: 'Cancel',
+    ok: 'OK',
+    confirm: 'Confirm',
+    closeTitle: 'Close Hub',
+    closeMsg: 'Close the panel?',
+    idLabel: 'ID {id}',
+    sections: { main:'Main', filters:'Filters', system:'System', protection:'Protection', attack:'Attack',
+                env:'Environment', speed:'Speed & Jump', phasing:'Phasing', webhook:'Webhook', keySys:'Key System',
+                interface:'Interface', combo:'Combo', v3:'V3', v4:'V4', followup:'Follow-up', esp:'Player ESP',
+                autospin:'Auto Spin', autostore:'Auto Store' }
+  },
+  pt: {
+    brandSub: 'PvP · Blox Fruits',
+    loaderBadge: 'Protegido',
+    loaderFooter: 'Conexão criptografada ativa',
+    activityTitle: 'Atividade ao Vivo',
+    loaderSteps: [
+      {at:0,   label:'Ambiente verificado.',             status:'Verificando sessão'},
+      {at:8,   label:'Carregando arquivo de config...',  status:'Carregando config'},
+      {at:16,  label:'Estabelecendo sessão segura...',   status:'Conectando'},
+      {at:24,  label:'Sessão segura estabelecida.',      status:'Autenticando'},
+      {at:32,  label:'Handshake: 3.101s',                status:'Handshake'},
+      {at:40,  label:'Verificando key...',               status:'Verificando key'},
+      {at:48,  label:'Key válida.',                      status:'Key verificada'},
+      {at:56,  label:'Carregando módulos...',            status:'Carregando módulos'},
+      {at:64,  label:'Módulo: ESP carregado.',           status:'Carregando ESP'},
+      {at:70,  label:'Módulo: Aimbot carregado.',        status:'Carregando Aimbot'},
+      {at:76,  label:'Módulo: Extras carregado.',        status:'Carregando Extras'},
+      {at:82,  label:'Aplicando patch de segurança...',  status:'Protegendo'},
+      {at:88,  label:'Verificação de integridade.',      status:'Verificando'},
+      {at:94,  label:'Registrando hotkeys...',           status:'Hotkeys'},
+      {at:98,  label:'Finalizando...',                   status:'Finalizando'},
+      {at:100, label:'Pronto.',                          status:'Pronto'}
+    ],
+    welcomeTitle: 'Str1ker Hub',
+    welcomeMsg: 'Bem-vindo, {user}',
+    configTitle: 'Aimbot',
+    configMsg: 'Configure nas abas',
+    enabled: 'Ativado',
+    disabled: 'Desativado',
+    setTo: 'Definido como {v}',
+    added: 'Adicionado',
+    cleared: 'Limpo',
+    copied: 'Copiado',
+    done: 'Feito',
+    spun: 'Girando...',
+    stored: 'Armazenado',
+    premiumOpen: 'Abrindo Discord...',
+    urlSaved: 'URL salva',
+    testSent: 'Teste enviado',
+    cancel: 'Cancelar',
+    ok: 'OK',
+    confirm: 'Confirmar',
+    closeTitle: 'Fechar Hub',
+    closeMsg: 'Fechar o painel?',
+    idLabel: 'ID {id}',
+    sections: { main:'Principal', filters:'Filtros', system:'Sistema', protection:'Proteção', attack:'Ataque',
+                env:'Ambiente', speed:'Velocidade & Pulo', phasing:'Phasing', webhook:'Webhook', keySys:'Sistema de Key',
+                interface:'Interface', combo:'Combo', v3:'V3', v4:'V4', followup:'Follow-up', esp:'ESP de Jogadores',
+                autospin:'Auto Spin', autostore:'Auto Store' }
+  }
+};
+
+let LANG = 'en';
+function t(key, vars) {
+  let s = I18N[LANG][key] || key;
+  if (vars) Object.keys(vars).forEach(k => s = s.replace('{'+k+'}', vars[k]));
+  return s;
+}
+
+const USER = {
+  id: 8862066334,
+  name: 'batata_ino28'
+};
+
+const DATA = {
+  Aimbot: { icon:'i-crosshair', tabs: [
+    {name:'Aimbot', icon:'i-crosshair'}, {name:'Target', icon:'i-target'},
+    {name:'FOV', icon:'i-scan'}, {name:'Silent', icon:'i-ghost'},
+    {name:'CamLock', icon:'i-eye'}, {name:'Hitbox', icon:'i-box'}
+  ], content: {
+    Aimbot: { sub:'Precise aiming system with movement prediction', sections:[
+      { title:'main', cards:[
+        {t:'toggle', title:'Enable Aimbot', desc:'Aim assist target acquisition', on:false},
+        {t:'toggle', title:'Gun Aimbot', desc:'Assist aim with firearms', on:false},
+        {t:'slider', title:'Aim Distance', desc:'Maximum targeting range', value:500, min:50, max:2000},
+        {t:'slider', title:'Prediction', desc:'Movement prediction lead', value:0.135, min:0.03, max:0.30},
+        {t:'slider', title:'Smoothing', desc:'Aim transition speed', value:0.35, min:0.05, max:0.95},
+        {t:'dropdown', title:'Hit Part', desc:'Preferred target part', value:'Head', options:['Head','Torso','Nearest']}
+      ]}
+    ]},
+    Target: { sub:'Configure which entities the aimbot locks', sections:[
+      { title:'filters', cards:[
+        {t:'toggle', title:'Target Players', desc:'Aim at other players', on:true},
+        {t:'toggle', title:'Target NPCs', desc:'Aim at mobs and bosses', on:false},
+        {t:'toggle', title:'Team Check', desc:'Skip teammates', on:true},
+        {t:'toggle', title:'Visible Check', desc:'Only visible entities', on:true}
+      ]}
+    ]},
+    FOV: { sub:'Field of view circle', sections:[
+      { title:'system', cards:[
+        {t:'toggle', title:'Use FOV Aim', desc:'Only target inside circle', on:true},
+        {t:'slider', title:'FOV Radius', desc:'Circle size in px', value:300, min:50, max:750},
+        {t:'toggle', title:'Show Circle', desc:'Draw circle', on:true},
+        {t:'toggle', title:'Follow Mouse', desc:'Circle follows cursor', on:false}
+      ]}
+    ]},
+    Silent: { sub:'Redirect projectiles to target', sections:[
+      { title:'main', cards:[
+        {t:'toggle', title:'Enable Silent Aim', desc:'Shots go to target', on:false},
+        {t:'slider', title:'Hit Chance', desc:'Chance per shot (%)', value:100, min:0, max:100}
+      ]}
+    ]},
+    CamLock: { sub:'Independent camera locking', sections:[
+      { title:'main', cards:[
+        {t:'toggle', title:'Enable CamLock', desc:'Lock camera onto target', on:false},
+        {t:'slider', title:'Lock Smoothness', desc:'Camera speed', value:0.5, min:0.05, max:0.95},
+        {t:'slider', title:'Sticky Duration', desc:'Seconds keeping target', value:2, min:0, max:10}
+      ]}
+    ]},
+    Hitbox: { sub:'Expand hitbox for easier shots', sections:[
+      { title:'main', cards:[
+        {t:'toggle', title:'Enable Expander', desc:'Expand target hitbox', on:false},
+        {t:'slider', title:'Hitbox Size', desc:'Scalar multiplier', value:50, min:1, max:50}
+      ]}
+    ]}
+  }},
+
+  Combat: { icon:'i-swords', tabs: [
+    {name:'Attack', icon:'i-mouse'}, {name:'Defense', icon:'i-ban'},
+    {name:'Haki', icon:'i-sparkles'}, {name:'Soru', icon:'i-zap'},
+    {name:'Race', icon:'i-flag'}, {name:'Macro', icon:'i-workflow'}
+  ], content: {
+    Attack: { sub:'Automated attack system', sections:[
+      { title:'attack', cards:[
+        {t:'toggle', title:'Auto Attack Players', desc:'Attack nearest in range', on:false},
+        {t:'toggle', title:'Fast Attack', desc:'Remove attack delay', on:false},
+        {t:'slider', title:'Attack Delay', desc:'Time between attacks (ms)', value:10, min:1, max:300}
+      ]}
+    ]},
+    Defense: { sub:'Defensive automation', sections:[
+      { title:'protection', cards:[
+        {t:'toggle', title:'Auto Dodge', desc:'Evade dangerous attacks', on:false},
+        {t:'toggle', title:'Unbreakable Skills', desc:'Prevent stun cancel', on:false}
+      ]}
+    ]},
+    Haki: { sub:'Auto-activate Haki abilities', sections:[
+      { title:'system', cards:[
+        {t:'toggle', title:'Auto Ken Haki', desc:'Observation Haki', on:false},
+        {t:'toggle', title:'Auto Buso Haki', desc:'Armament Haki', on:false}
+      ]}
+    ]},
+    Soru: { sub:'Flash step and follow-up', sections:[
+      { title:'system', cards:[
+        {t:'toggle', title:'Show Soru Button', desc:'Floating button', on:false},
+        {t:'slider', title:'Soru Distance', desc:'Max teleport range', value:200, min:20, max:200},
+        {t:'toggle', title:'Infinite Soru', desc:'Remove cooldown', on:false}
+      ]},
+      { title:'followup', cards:[
+        {t:'toggle', title:'Enable Follow-up', desc:'Use skill after Soru', on:false},
+        {t:'dropdown', title:'Weapon', desc:'Weapon type', value:'Melee', options:['Melee','Sword','Gun','Fruit']},
+        {t:'dropdown', title:'Skill', desc:'Key to press', value:'Z', options:['Z','X','C','V']}
+      ]}
+    ]},
+    Race: { sub:'Auto Race V3 and V4', sections:[
+      { title:'v3', cards:[
+        {t:'toggle', title:'Auto V3', desc:'Use V3 when ready', on:false},
+        {t:'toggle', title:'Smart V3', desc:'Strategic usage', on:false}
+      ]},
+      { title:'v4', cards:[
+        {t:'toggle', title:'Auto V4', desc:'Transform when full', on:false},
+        {t:'toggle', title:'Smart V4', desc:'Skip during combo', on:false}
+      ]}
+    ]},
+    Macro: { sub:'Automated skill combo', sections:[
+      { title:'combo', cards:[
+        {t:'toggle', title:'Macro Active', desc:'Execute sequence', on:false},
+        {t:'arrow', title:'Add Z to Combo', desc:'Append Z skill', action:()=>showNotif('Macro','Z '+t('added').toLowerCase(),'success')},
+        {t:'arrow', title:'Add X to Combo', desc:'Append X skill', action:()=>showNotif('Macro','X '+t('added').toLowerCase(),'success')},
+        {t:'arrow', title:'Clear Combo', desc:'Reset sequence', action:()=>askConfirm('Clear Combo','Reset all skills?',()=>showNotif('Macro',t('cleared'),'success'))}
+      ]}
+    ]}
+  }},
+
+  Visuals: { icon:'i-eye', tabs: [
+    {name:'ESP', icon:'i-scan'}, {name:'Environment', icon:'i-eye'}
+  ], content: {
+    ESP: { sub:'See players through walls', sections:[
+      { title:'esp', cards:[
+        {t:'toggle', title:'Enable ESP', desc:'Overlay all players', on:false},
+        {t:'toggle', title:'Box', desc:'Box around character', on:true},
+        {t:'toggle', title:'Name', desc:'Player name', on:true},
+        {t:'toggle', title:'Distance', desc:'Distance in studs', on:true},
+        {t:'toggle', title:'Health Bar', desc:'Horizontal HP bar', on:true},
+        {t:'toggle', title:'Tracer', desc:'Line from bottom', on:true},
+        {t:'toggle', title:'Skeleton', desc:'Bone lines', on:false},
+        {t:'slider', title:'Max Distance', desc:'ESP render range', value:2000, min:100, max:5000}
+      ]}
+    ]},
+    Environment: { sub:'World lighting tweaks', sections:[
+      { title:'env', cards:[
+        {t:'toggle', title:'Fullbright', desc:'Max lighting', on:false},
+        {t:'toggle', title:'No Fog', desc:'Remove fog', on:false},
+        {t:'toggle', title:'No Grass', desc:'Hide terrain grass', on:false}
+      ]}
+    ]}
+  }},
+
+  Movement: { icon:'i-move', tabs: [
+    {name:'Movement', icon:'i-move'}, {name:'Anti-Detect', icon:'i-ban'}
+  ], content: {
+    Movement: { sub:'Character mobility', sections:[
+      { title:'speed', cards:[
+        {t:'toggle', title:'Super Jump', desc:'Increase jump strength', on:false},
+        {t:'slider', title:'Jump Power', desc:'Jump value', value:100, min:50, max:300},
+        {t:'toggle', title:'Custom Speed', desc:'Override walk speed', on:false},
+        {t:'slider', title:'WalkSpeed', desc:'Speed value', value:16, min:16, max:250}
+      ]},
+      { title:'phasing', cards:[
+        {t:'toggle', title:'Noclip', desc:'Walk through walls', on:false},
+        {t:'toggle', title:'Infinite Jump', desc:'Jump mid-air', on:false},
+        {t:'toggle', title:'Walk On Water', desc:'Stand on ocean', on:false}
+      ]}
+    ]},
+    'Anti-Detect': { sub:'Detection evasion', sections:[
+      { title:'protection', cards:[
+        {t:'toggle', title:'Random Delay', desc:'Jitter attack timings', on:true},
+        {t:'toggle', title:'Jitter Movements', desc:'Randomize speed', on:true},
+        {t:'toggle', title:'Server Hop Admin', desc:'Switch on admin join', on:true}
+      ]}
+    ]}
+  }},
+
+  Fruits: { icon:'i-package', tabs: [
+    {name:'Spin', icon:'i-package'}, {name:'Store', icon:'i-save'}
+  ], content: {
+    Spin: { sub:'Auto spin Blox Fruits', sections:[
+      { title:'autospin', cards:[
+        {t:'toggle', title:'Auto Spin Fruit', desc:'Spin dealer automatically', on:false},
+        {t:'slider', title:'Spin Delay', desc:'Seconds between spins', value:3, min:1, max:30},
+        {t:'arrow', title:'Spin Now', desc:'Spin once', action:()=>showNotif('Fruit', t('spun'), 'success')}
+      ]}
+    ]},
+    Store: { sub:'Auto store fruits', sections:[
+      { title:'autostore', cards:[
+        {t:'toggle', title:'Auto Store Fruit', desc:'Store inventory fruits', on:false},
+        {t:'arrow', title:'Store Now', desc:'Store equipped fruit', action:()=>showNotif('Fruit', t('stored'), 'success')}
+      ]}
+    ]}
+  }},
+
+  Settings: { icon:'i-settings', tabs: [
+    {name:'Key', icon:'i-lock'}, {name:'Interface', icon:'i-dashboard'}
+  ], content: {
+    Key: { sub:'Key system and premium', sections:[
+      { title:'keySys', cards:[
+        {t:'locked', title:'12h Key Check', desc:'Revalidated automatically', badge:'REQUIRED', badgeClass:'required'},
+        {t:'locked', title:'Validate Key', desc:'Executed on load', badge:'AUTO', badgeClass:'auto'},
+        {t:'premium', title:'Premium Features', desc:'Advanced — Discord'}
+      ]}
+    ]},
+    Interface: { sub:'UI preferences', sections:[
+      { title:'interface', cards:[
+        {t:'toggle', title:'Watermark', desc:'Show watermark on screen', on:true},
+        {t:'toggle', title:'FPS Counter', desc:'Real-time FPS display', on:false},
+        {t:'toggle', title:'Notifications', desc:'On-screen toasts', on:true}
+      ]}
+    ]}
+  }}
+};
+
+let currentCat = 'Aimbot';
+let currentTab = 'Aimbot';
+const catNavEl = document.getElementById('catNav');
+const tabsEl = document.getElementById('tabs');
+const cardsEl = document.getElementById('cards');
+const appEl = document.getElementById('app');
+
+function icon(id, cls) { return `<svg class="ico ${cls||''}"><use href="#${id}"/></svg>`; }
+
+function renderCats() {
+  catNavEl.innerHTML = '';
+  const top = ['Aimbot','Combat','Visuals','Movement','Fruits'];
+  const bot = ['Settings'];
+  const mk = k => {
+    const cat = DATA[k];
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn' + (k === currentCat ? ' active' : '');
+    btn.dataset.cat = k;
+    btn.innerHTML = `${icon(cat.icon, 'ico-sm')}<span>${k}</span>`;
+    btn.onclick = () => switchCat(k);
+    return btn;
+  };
+  top.forEach(k => catNavEl.appendChild(mk(k)));
+  const sep = document.createElement('div'); sep.className = 'cat-sep'; catNavEl.appendChild(sep);
+  bot.forEach(k => catNavEl.appendChild(mk(k)));
+}
+
+function renderTabs() {
+  tabsEl.innerHTML = '';
+  DATA[currentCat].tabs.forEach(tn => {
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (tn.name === currentTab ? ' active' : '');
+    btn.innerHTML = `${icon(tn.icon, 'ico-sm')}<span>${tn.name}</span>`;
+    btn.onclick = () => { currentTab = tn.name; renderTabs(); renderCards(); };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function renderCards() {
+  cardsEl.innerHTML = '';
+  const page = DATA[currentCat].content[currentTab];
+  if (!page) return;
+  const head = document.createElement('div'); head.className = 'page-head';
+  head.innerHTML = `<div class="page-title">${currentTab}</div><div class="page-sub">${page.sub || ''}</div>`;
+  cardsEl.appendChild(head);
+
+  let di = 0;
+  page.sections.forEach(sec => {
+    const sh = document.createElement('div'); sh.className = 'sec-head';
+    sh.textContent = (I18N[LANG].sections[sec.title] || sec.title);
+    cardsEl.appendChild(sh);
+
+    sec.cards.forEach(card => {
+      const el = document.createElement('div');
+      el.style.animationDelay = (di * 0.025) + 's'; di++;
+
+      if (card.t === 'toggle') {
+        el.className = 'card';
+        el.innerHTML = `<div class="card-body"><div class="card-title">${card.title}</div><div class="card-desc">${card.desc || ''}</div></div><div class="card-trailing"><div class="toggle ${card.on ? 'on' : ''}"></div></div>`;
+        const tg = el.querySelector('.toggle');
+        el.onclick = () => {
+          tg.classList.toggle('on');
+          const on = tg.classList.contains('on');
+          card.on = on;
+          showNotif(card.title, on ? t('enabled') : t('disabled'), on ? 'success' : 'info');
+        };
+      }
+      else if (card.t === 'slider') {
+        el.className = 'card static';
+        const isDec = card.max <= 2;
+        const pct = ((card.value - card.min) / (card.max - card.min)) * 100;
+        el.innerHTML = `<div class="card-body"><div class="card-title">${card.title}</div><div class="card-desc">${card.desc || ''}</div></div><div class="card-trailing"><div class="slider-wrap"><div class="slider-track" data-min="${card.min}" data-max="${card.max}" data-decimal="${isDec}"><div class="slider-fill" style="width:${pct}%"></div></div><div class="slider-val">${isDec ? card.value.toFixed(2) : card.value}</div></div></div>`;
+        attachSlider(el);
+      }
+      else if (card.t === 'dropdown') {
+        el.className = 'card';
+        el.innerHTML = `<div class="card-body"><div class="card-title">${card.title}</div><div class="card-desc">${card.desc || ''}</div></div><div class="card-trailing"><div class="dropdown"><span>${card.value}</span>${icon('i-chev-right','chev-arrow ico-sm')}</div></div>`;
+        el.onclick = () => showDropdown(card);
+      }
+      else if (card.t === 'locked') {
+        el.className = 'card static';
+        el.innerHTML = `<div class="card-body"><div class="card-title">${card.title}</div><div class="card-desc">${card.desc || ''}</div></div><div class="card-trailing"><span class="badge ${card.badgeClass}">${card.badge}</span></div>`;
+      }
+      else if (card.t === 'premium') {
+        el.className = 'card';
+        el.innerHTML = `<div class="card-body"><div class="card-title">${card.title}</div><div class="card-desc">${card.desc || ''}</div></div><div class="card-trailing"><span class="badge pro">PRO</span></div>`;
+        el.onclick = () => showNotif('Premium', t('premiumOpen'), 'success');
+      }
+      else {
+        el.className = 'card';
+        el.innerHTML = `<div class="card-body"><div class="card-title">${card.title}</div><div class="card-desc">${card.desc || ''}</div></div><div class="card-trailing">${icon('i-chev-right','chev-arrow ico-sm')}</div>`;
+        el.onclick = () => { if (card.action) card.action(); else showNotif(card.title, t('done'), 'success'); };
+      }
+      cardsEl.appendChild(el);
+    });
+  });
+}
+
+function attachSlider(el) {
+  const track = el.querySelector('.slider-track');
+  const fill = el.querySelector('.slider-fill');
+  const val = el.querySelector('.slider-val');
+  const min = +track.dataset.min, max = +track.dataset.max;
+  const isDec = track.dataset.decimal === 'true';
+  const set = x => {
+    const r = track.getBoundingClientRect();
+    const rel = Math.max(0, Math.min(1, (x - r.left) / r.width));
+    const v = min + (max - min) * rel;
+    fill.style.width = (rel * 100) + '%';
+    val.textContent = isDec ? v.toFixed(2) : Math.round(v);
+  };
+  const down = e => {
+    e.stopPropagation();
+    set(e.touches ? e.touches[0].clientX : e.clientX);
+    const move = ev => set(ev.touches ? ev.touches[0].clientX : ev.clientX);
+    const up = () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); window.removeEventListener('touchmove', move); window.removeEventListener('touchend', up); };
+    window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+    window.addEventListener('touchmove', move, {passive:true}); window.addEventListener('touchend', up);
+  };
+  track.addEventListener('mousedown', down);
+  track.addEventListener('touchstart', down, {passive:true});
+  el.addEventListener('click', e => e.stopPropagation());
+}
+
+function showDropdown(card) {
+  const ex = document.querySelector('.popup-overlay'); if (ex) ex.remove();
+  const ov = document.createElement('div'); ov.className = 'popup-overlay';
+  ov.onclick = e => { if (e.target === ov) closePopup(ov); };
+  const p = document.createElement('div'); p.className = 'popup';
+  p.innerHTML = `<div class="popup-title">${card.title}</div><div class="popup-msg">${card.desc || ''}</div><div id="ddOpts"></div>`;
+  const opts = p.querySelector('#ddOpts');
+  card.options.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'popup-btn';
+    b.style.cssText = 'display:block;width:100%;margin-bottom:6px;' + (opt === card.value ? 'background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;' : 'background:rgba(50,70,100,0.4);color:var(--text);');
+    b.textContent = opt;
+    b.onclick = () => { card.value = opt; renderCards(); closePopup(ov); showNotif(card.title, t('setTo', {v:opt}), 'success'); };
+    opts.appendChild(b);
+  });
+  ov.appendChild(p); document.body.appendChild(ov);
+}
+
+function switchCat(cat) {
+  currentCat = cat;
+  currentTab = DATA[cat].tabs[0].name;
+  document.querySelectorAll('.cat-btn').forEach(el => el.classList.toggle('active', el.dataset.cat === cat));
+  renderTabs(); renderCards();
+}
+
+function showNotif(title, msg, kind) {
+  kind = kind || 'info';
+  const holder = document.getElementById('notifs');
+  const el = document.createElement('div');
+  el.className = 'notif ' + kind;
+  let icoId = 'i-check';
+  if (kind === 'warn') icoId = 'i-alert';
+  if (kind === 'info') icoId = 'i-info';
+  if (kind === 'error') icoId = 'i-x';
+  el.innerHTML = `<div class="notif-icon">${icon(icoId, 'ico-sm')}</div><div class="notif-body"><div class="notif-title">${title}</div><div class="notif-msg">${msg}</div></div><div class="notif-bar"><div class="notif-bar-fill"></div></div>`;
+  holder.appendChild(el);
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 400); }, 4000);
+}
+
+function closePopup(ov) {
+  ov.classList.add('closing');
+  setTimeout(() => ov.remove(), 200);
+}
+
+function askConfirm(title, msg, onYes) {
+  const ex = document.querySelector('.popup-overlay'); if (ex) ex.remove();
+  const ov = document.createElement('div'); ov.className = 'popup-overlay';
+  const p = document.createElement('div'); p.className = 'popup';
+  p.innerHTML = `<div class="popup-icon warn">${icon('i-alert','ico-lg')}</div><div class="popup-title">${title}</div><div class="popup-msg">${msg}</div><div class="popup-actions"><button class="popup-btn cancel" id="pC">${t('cancel')}</button><button class="popup-btn confirm" id="pK">${t('confirm')}</button></div>`;
+  ov.appendChild(p); document.body.appendChild(ov);
+  p.querySelector('#pC').onclick = () => closePopup(ov);
+  p.querySelector('#pK').onclick = () => { closePopup(ov); if (onYes) onYes(); };
+}
+
+function askPrompt(title, placeholder, onSubmit) {
+  const ex = document.querySelector('.popup-overlay'); if (ex) ex.remove();
+  const ov = document.createElement('div'); ov.className = 'popup-overlay';
+  const p = document.createElement('div'); p.className = 'popup';
+  p.innerHTML = `<div class="popup-title">${title}</div><input class="popup-input" id="pInput" placeholder="${placeholder}" autocomplete="off"><div class="popup-actions"><button class="popup-btn cancel" id="pC">${t('cancel')}</button><button class="popup-btn confirm" id="pK">${t('ok')}</button></div>`;
+  ov.appendChild(p); document.body.appendChild(ov);
+  const inp = p.querySelector('#pInput');
+  setTimeout(() => inp.focus(), 100);
+  const ok = () => { const v = inp.value.trim(); if (v && onSubmit) onSubmit(v); closePopup(ov); };
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') ok(); });
+  p.querySelector('#pC').onclick = () => closePopup(ov);
+  p.querySelector('#pK').onclick = ok;
+}
+
+document.getElementById('minBtn').onclick = () => {
+  appEl.classList.add('hide');
+  setTimeout(() => {
+    appEl.classList.remove('show');
+    appEl.classList.remove('hide');
+    appEl.style.display = 'none';
+    setTimeout(() => {
+      appEl.style.display = '';
+      appEl.classList.add('show');
+    }, 1400);
+  }, 300);
+};
+
+document.getElementById('closeBtn').onclick = () => {
+  askConfirm(t('closeTitle'), t('closeMsg'), () => {
+    appEl.classList.add('hide');
+    setTimeout(() => {
+      appEl.classList.remove('show');
+      appEl.classList.remove('hide');
+      appEl.style.display = 'none';
+    }, 300);
+  });
+};
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.onclick = () => {
+    LANG = btn.dataset.lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.documentElement.lang = LANG;
+    applyLang();
+    renderCards();
+    showNotif('Language', LANG === 'en' ? 'English' : 'Português', 'info');
+  };
+});
+
+function applyLang() {
+  document.getElementById('brandSub').textContent = t('brandSub');
+  document.getElementById('loaderBadge').textContent = t('loaderBadge');
+  document.querySelector('.activity-title').textContent = t('activityTitle');
+  document.querySelector('.loader-footer span').textContent = t('loaderFooter');
+  document.getElementById('bigTag').textContent = t('idLabel', {id:USER.id});
+}
+
+function updateUserName() {
+  document.getElementById('chipName').textContent = USER.name;
+  document.getElementById('bigName').innerHTML = `<span>${USER.name}</span>`;
+}
+updateUserName();
+
+const loaderStage = document.getElementById('loaderStage');
+const activityList = document.getElementById('activityList');
+const MAX_ROWS = 5;
+const rowRefs = {};
+let lastIdx = -1;
+
+function addActivityRow(idx) {
+  const steps = I18N[LANG].loaderSteps;
+  const s = steps[idx];
+  const el = document.createElement('div');
+  el.className = 'activity-row active';
+  el.innerHTML = `<div class="adot"></div><div>${s.label}</div>`;
+  activityList.appendChild(el);
+  rowRefs[idx] = el;
+  const vis = activityList.querySelectorAll('.activity-row:not(.leaving)');
+  if (vis.length > MAX_ROWS) {
+    const first = vis[0];
+    first.classList.add('leaving'); first.classList.remove('active');
+    setTimeout(() => first.remove(), 350);
+  }
+}
+function markActivityDone(idx) {
+  const el = rowRefs[idx];
+  if (el) { el.classList.remove('active'); el.classList.add('done'); }
+}
+
+function startLoader() {
+  loaderStage.classList.add('show');
+  loaderStage.classList.remove('hide');
+  const DUR = 6500, start = performance.now();
+  const fill = document.getElementById('loaderFill');
+  const pct = document.getElementById('loaderPct');
+  const statusTxt = document.getElementById('loaderStatusText');
+  const steps = I18N[LANG].loaderSteps;
+
+  function tick() {
+    const p = Math.min(1, (performance.now() - start) / DUR);
+    const pVal = Math.floor(p * 100);
+    fill.style.width = pVal + '%';
+    pct.textContent = pVal + '%';
+    let idx = 0;
+    for (let i = 0; i < steps.length; i++) { if (pVal >= steps[i].at) idx = i; }
+    if (idx !== lastIdx) {
+      if (lastIdx >= 0) markActivityDone(lastIdx);
+      if (idx < steps.length) { addActivityRow(idx); statusTxt.textContent = steps[idx].status; }
+      lastIdx = idx;
+    }
+    if (p < 1) requestAnimationFrame(tick);
+    else {
+      markActivityDone(lastIdx);
+      statusTxt.textContent = I18N[LANG].loaderSteps[I18N[LANG].loaderSteps.length-1].status;
+      pct.textContent = '100%';
+      setTimeout(() => {
+        loaderStage.classList.add('hide');
+        setTimeout(() => {
+          loaderStage.classList.remove('show');
+          loaderStage.classList.remove('hide');
+          activityList.innerHTML = ''; lastIdx = -1;
+          for (const k in rowRefs) delete rowRefs[k];
+          appEl.classList.add('show');
+          document.getElementById('watermark').classList.add('show');
+          setTimeout(() => showNotif(t('welcomeTitle'), t('welcomeMsg', {user:USER.name}), 'success'), 300);
+          setTimeout(() => showNotif(t('configTitle'), t('configMsg'), 'info'), 1000);
+        }, 500);
+      }, 300);
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+applyLang();
+renderCats();
+renderTabs();
+renderCards();
+startLoader();
+</script>
+</body>
+</html>
