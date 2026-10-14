@@ -365,15 +365,25 @@ task.spawn(function()
     loadAvatar()
 end)
 
--- Animacao flutuacao + rotacao leve
+-- Animacao: flutuacao + sway suave + breathing scale
 local t = 0
 RunService.RenderStepped:Connect(function(dt)
     if not avatarImg or not avatarImg.Parent then return end
     t = t + dt
-    local yOff = math.sin(t * 1.5) * 5
-    local rot = math.sin(t * 1.2) * 3
-    avatarImg.Position = UDim2.new(0, 10, 0, 20 + yOff)
+
+    -- Flutuacao vertical suave (8px)
+    local yOff = math.sin(t * 1.4) * 4
+
+    -- Sway leve (2 graus) - parece estar "vivo"
+    local rot = math.sin(t * 0.9) * 2
+
+    -- Breathing scale leve (efeito de respirar)
+    local breath = 1 + math.sin(t * 1.4) * 0.015
+    local baseSize = 180 * breath
+
+    avatarImg.Position = UDim2.new(0.5, 0, 0.5, -15 + yOff)
     avatarImg.Rotation = rot
+    avatarImg.Size = UDim2.new(0, baseSize, 0, baseSize)
 end)
 
 -- ==========================================================================
