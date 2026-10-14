@@ -667,7 +667,7 @@ local function dropdown(page, label, options, initial, callback)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 11
     btn.TextColor3 = C.text
-    btn.Text = options[currentIdx] .. " v"
+    btn.Text = options[currentIdx] .. "  ▾"
     btn.AutoButtonColor = false
     btn.ZIndex = 5
     btn.Parent = row
