@@ -260,12 +260,13 @@ charPanel.BorderSizePixel = 0
 charPanel.ClipsDescendants = true
 charPanel.Parent = win
 
--- Glow atras
+-- Glow pulsante atras do avatar
 local glow = Instance.new("Frame")
-glow.Size = UDim2.new(0, 180, 0, 180)
-glow.Position = UDim2.new(0.5, -90, 1, -120)
+glow.AnchorPoint = Vector2.new(0.5, 0.5)
+glow.Size = UDim2.new(0, 160, 0, 160)
+glow.Position = UDim2.new(0.5, 0, 0.5, 0)
 glow.BackgroundColor3 = C.accent
-glow.BackgroundTransparency = 0.75
+glow.BackgroundTransparency = 0.78
 glow.BorderSizePixel = 0
 glow.ZIndex = 1
 glow.Active = false
@@ -274,40 +275,40 @@ corner(glow, 999)
 
 task.spawn(function()
     while glow.Parent do
-        tw(glow, 2, {
+        tw(glow, 2.5, {
             BackgroundTransparency = 0.6,
-            Size = UDim2.new(0, 200, 0, 200),
-            Position = UDim2.new(0.5, -100, 1, -130),
+            Size = UDim2.new(0, 185, 0, 185),
         }, Enum.EasingStyle.Sine)
-        task.wait(2)
+        task.wait(2.5)
         if not glow.Parent then break end
-        tw(glow, 2, {
-            BackgroundTransparency = 0.8,
-            Size = UDim2.new(0, 180, 0, 180),
-            Position = UDim2.new(0.5, -90, 1, -120),
+        tw(glow, 2.5, {
+            BackgroundTransparency = 0.82,
+            Size = UDim2.new(0, 155, 0, 155),
         }, Enum.EasingStyle.Sine)
-        task.wait(2)
+        task.wait(2.5)
     end
 end)
 
--- Sombra
+-- Sombra eliptica embaixo do boneco
 local shadow = Instance.new("Frame")
-shadow.Size = UDim2.new(0, 120, 0, 12)
-shadow.Position = UDim2.new(0.5, -60, 1, -30)
+shadow.AnchorPoint = Vector2.new(0.5, 0.5)
+shadow.Size = UDim2.new(0, 100, 0, 10)
+shadow.Position = UDim2.new(0.5, 0, 0.86, 0)
 shadow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-shadow.BackgroundTransparency = 0.4
+shadow.BackgroundTransparency = 0.55
 shadow.BorderSizePixel = 0
 shadow.ZIndex = 2
 shadow.Active = false
 shadow.Parent = charPanel
 corner(shadow, 99)
 
--- ImageLabel do avatar
+-- ImageLabel com o avatar (centralizado)
 local avatarImg = Instance.new("ImageLabel")
 avatarImg.Name = "Avatar"
+avatarImg.AnchorPoint = Vector2.new(0.5, 0.5)
+avatarImg.Size = UDim2.new(0, 180, 0, 180)
+avatarImg.Position = UDim2.new(0.5, 0, 0.5, -15)
 avatarImg.BackgroundTransparency = 1
-avatarImg.Size = UDim2.new(1, -20, 1, -80)
-avatarImg.Position = UDim2.new(0, 10, 0, 20)
 avatarImg.ScaleType = Enum.ScaleType.Fit
 avatarImg.ZIndex = 3
 avatarImg.Active = false
@@ -315,8 +316,9 @@ avatarImg.Parent = charPanel
 
 -- Label embaixo
 local charLabel = Instance.new("TextLabel")
+charLabel.AnchorPoint = Vector2.new(0.5, 0)
 charLabel.Size = UDim2.new(1, 0, 0, 16)
-charLabel.Position = UDim2.new(0, 0, 1, -22)
+charLabel.Position = UDim2.new(0.5, 0, 1, -22)
 charLabel.BackgroundTransparency = 1
 charLabel.Font = Enum.Font.GothamBold
 charLabel.TextSize = 9
