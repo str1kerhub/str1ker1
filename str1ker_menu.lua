@@ -714,7 +714,7 @@ local function dropdown(page, label, options, initial, callback)
             pad(o, 0, 0, 0, 8)
             o.MouseButton1Click:Connect(function()
                 currentIdx = i
-                btn.Text = opt .. " v"
+                btn.Text = opt .. "  ▾"
                 if callback then callback(opt) end
                 closeList()
             end)
