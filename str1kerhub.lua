@@ -1,7 +1,7 @@
 --!nocheck
 -- ==========================================================================
--- STR1KER LOADER v3.1
--- Key UI + Logo + Auto-update + Anti-dump + Owner panel
+-- STR1KER LOADER v3.2
+-- Key UI + Logo + Owner bypass + Auto-update + Anti-dump
 -- ==========================================================================
 
 local Players   = game:GetService("Players")
@@ -13,6 +13,9 @@ local CoreGui   = (gethui and gethui()) or game:GetService("CoreGui")
 local BASE     = "https://raw.githubusercontent.com/str1kerhub/str1ker1/main"
 local BACKEND  = "https://str1ker-backend.up.railway.app"
 local LOGO_ID  = "rbxassetid://73606056465798"
+
+-- ⚠️ TROCA PELO SEU NOME DO ROBLOX EXATO
+local OWNER_NAME = "ws_pix"
 
 local httpReq = (syn and syn.request) or (http and http.request) or http_request or request
 
@@ -56,7 +59,6 @@ local function promptKey()
     gui.DisplayOrder = 999
     gui.Parent = CoreGui
 
-    -- Overlay escuro em tela cheia
     local overlay = Instance.new("Frame")
     overlay.Size = UDim2.new(1, 0, 1, 0)
     overlay.BackgroundColor3 = Color3.fromRGB(6, 6, 10)
@@ -64,7 +66,6 @@ local function promptKey()
     overlay.BorderSizePixel = 0
     overlay.Parent = gui
 
-    -- Card
     local bg = Instance.new("Frame")
     bg.Size = UDim2.new(0, 400, 0, 320)
     bg.Position = UDim2.new(0.5, -200, 0.5, -160)
@@ -78,7 +79,6 @@ local function promptKey()
     s.Transparency = 0.4
     s.Parent = bg
 
-    -- Logo
     local logo = Instance.new("ImageLabel")
     logo.Size = UDim2.new(0, 140, 0, 140)
     logo.Position = UDim2.new(0.5, -70, 0, 14)
@@ -87,7 +87,6 @@ local function promptKey()
     logo.ScaleType = Enum.ScaleType.Fit
     logo.Parent = bg
 
-    -- Título
     local title = Instance.new("TextLabel")
     title.Size = UDim2.new(1, -24, 0, 20)
     title.Position = UDim2.new(0, 12, 0, 162)
@@ -98,7 +97,6 @@ local function promptKey()
     title.Text = "VERIFICAÇÃO"
     title.Parent = bg
 
-    -- Subtítulo
     local sub = Instance.new("TextLabel")
     sub.Size = UDim2.new(1, -24, 0, 14)
     sub.Position = UDim2.new(0, 12, 0, 184)
@@ -109,7 +107,6 @@ local function promptKey()
     sub.Text = "Cole sua key para continuar"
     sub.Parent = bg
 
-    -- Input
     local box = Instance.new("TextBox")
     box.Size = UDim2.new(1, -24, 0, 34)
     box.Position = UDim2.new(0, 12, 0, 206)
@@ -124,7 +121,6 @@ local function promptKey()
     box.Parent = bg
     local c2 = Instance.new("UICorner"); c2.CornerRadius = UDim.new(0, 6); c2.Parent = box
 
-    -- Botão
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(1, -24, 0, 36)
     btn.Position = UDim2.new(0, 12, 0, 250)
@@ -137,7 +133,6 @@ local function promptKey()
     btn.Parent = bg
     local c3 = Instance.new("UICorner"); c3.CornerRadius = UDim.new(0, 6); c3.Parent = btn
 
-    -- Status
     local status = Instance.new("TextLabel")
     status.Size = UDim2.new(1, -24, 0, 14)
     status.Position = UDim2.new(0, 12, 1, -20)
@@ -148,7 +143,6 @@ local function promptKey()
     status.Text = ""
     status.Parent = bg
 
-    -- Drag
     local dragging, dragStart, startPos
     bg.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -202,29 +196,38 @@ local function promptKey()
 end
 
 -- ==========================================================================
--- FLUXO DE VERIFICAÇÃO
+-- FLUXO DE VERIFICAÇÃO (com bypass de owner)
 -- ==========================================================================
 
-local key = loadKey()
-if not key or not validate(key) then
-    key = promptKey()
-    if not key then return end
-end
+local IS_OWNER = (LP.Name == OWNER_NAME)
+local key
 
--- Revalidação em background (a cada 5 min)
-task.spawn(function()
-    while task.wait(300) do
-        if not validate(key) then
-            warn("[Str1ker] key expirou")
-            for _, g in ipairs(CoreGui:GetChildren()) do
-                if g.Name == "Str1kerOwnerPanel" or g.Name == "Str1kerMenu" then
-                    g:Destroy()
-                end
-            end
-            break
-        end
+if IS_OWNER then
+    -- Owner passa direto, sem key, sem UI, sem validação
+    print("[Str1ker] Modo owner ativo — pulando verificação de key.")
+    key = "OWNER_BYPASS"
+else
+    key = loadKey()
+    if not key or not validate(key) then
+        key = promptKey()
+        if not key then return end
     end
-end)
+
+    -- Revalidação em background (a cada 5 min)
+    task.spawn(function()
+        while task.wait(300) do
+            if not validate(key) then
+                warn("[Str1ker] key expirou")
+                for _, g in ipairs(CoreGui:GetChildren()) do
+                    if g.Name == "Str1kerOwnerPanel" or g.Name == "Str1kerMenu" then
+                        g:Destroy()
+                    end
+                end
+                break
+            end
+        end
+    end)
+end
 
 -- ==========================================================================
 -- CARREGA PVP
@@ -239,7 +242,7 @@ if not ok then
 end
 
 -- ==========================================================================
--- OWNER PANEL (carrega em paralelo, internamente checa o nome)
+-- OWNER PANEL
 -- ==========================================================================
 
 task.spawn(function()
