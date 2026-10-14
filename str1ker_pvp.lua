@@ -177,7 +177,7 @@ Players.PlayerRemoving:Connect(function(p)
     local s = espStore[p]
     if s then
         for _, d in pairs(s) do
-            if d then d.Visible = false; drawingPool[d.ClassName or "?"] = d end
+            if d then d.Visible = false end
         end
         espStore[p] = nil
     end
@@ -314,7 +314,7 @@ local function pickTarget()
 end
 
 -- ==========================================================================
--- SILENT AIM (hook genérico, sem tocar em Modules.Net)
+-- SILENT AIM (hook genérico)
 -- ==========================================================================
 
 if getrawmetatable and setreadonly and newcclosure then
@@ -374,7 +374,6 @@ RunService.RenderStepped:Connect(function()
     frameCounter = (frameCounter + 1) % TEXT_UPDATE_EVERY
     local doText = (frameCounter == 0)
 
-    -- ESP
     if espEnabled then
         local enemyCol = CFG.esp.enemy_color
         local teamCol  = CFG.esp.team_color
@@ -492,7 +491,6 @@ RunService.RenderStepped:Connect(function()
         end
     end
 
-    -- AIM
     if aimEnabled then
         if aimTarget and (tick() - aimLockAt) < LOCK_DURATION then
             if not isValid(aimTarget) then aimTarget = nil end
