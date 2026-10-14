@@ -709,7 +709,7 @@ mkToggle(visPage, "Name", "Player name", CFG.esp.name, function(v) CFG.esp.name 
 mkToggle(visPage, "Distance", "Distance in studs", CFG.esp.distance, function(v) CFG.esp.distance = v; API.saveCfg() end)
 mkToggle(visPage, "Health Bar", "Horizontal HP bar", CFG.esp.health_bar, function(v) CFG.esp.health_bar = v; API.saveCfg() end)
 mkToggle(visPage, "Tracer", "Line from bottom", CFG.esp.tracer, function(v) CFG.esp.tracer = v; API.saveCfg() end)
-mkToggle(visPage, "Skeleton", "Bone lines", CFG.esp.skeleton, function(v) CFG.esp.skeleton = v; API.saveCfg() end)
+mkToggle(visPage, "Skeleton", "Bone lines", CFG.esp.skeleton, function(v) API.setSkeleton(v) end)
 mkSlider(visPage, "Max Distance", "ESP render range", 100, 5000, CFG.esp.max_distance, 100, function(v) API.setMaxDist(v) end)
 mkHeader(visPage, "ENVIRONMENT")
 mkToggle(visPage, "Fullbright", "Max lighting", false, nil)
