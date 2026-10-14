@@ -430,23 +430,43 @@ local function switchTab(name)
     end
 end
 
+local TAB_ICONS = {
+    Aimbot = "◎",
+    ESP    = "◉",
+    Config = "✦",
+    Info   = "✧",
+}
+
 local function newTabBtn(name, label)
     local b = Instance.new("TextButton")
     b.Name = name
-    b.Size = UDim2.new(1, 0, 0, 34)
+    b.Size = UDim2.new(1, 0, 0, 36)
     b.BackgroundColor3 = C.sidebar
     b.BorderSizePixel = 0
     b.Font = Enum.Font.GothamBold
     b.TextSize = 12
     b.TextColor3 = C.textDim
     b.TextXAlignment = Enum.TextXAlignment.Left
-    b.Text = "  " .. label
+    b.Text = "   " .. (TAB_ICONS[name] or "•") .. "    " .. label
     b.AutoButtonColor = false
     b.Parent = sidebar
-    corner(b, 6)
-    stroke(b, C.sidebar, 1, 1)
+    corner(b, 7)
+    local s = stroke(b, C.sidebar, 1, 1)
+    b.UIStroke = s
     table.insert(tabBtns, b)
     b.MouseButton1Click:Connect(function() switchTab(name) end)
+    b.MouseEnter:Connect(function()
+        if pages[name] and pages[name].Visible then return end
+        tw(b, 0.15, { BackgroundColor3 = C.surface2 })
+        s.Color = C.accent
+        s.Transparency = 0.6
+    end)
+    b.MouseLeave:Connect(function()
+        if pages[name] and pages[name].Visible then return end
+        tw(b, 0.15, { BackgroundColor3 = C.sidebar })
+        s.Color = C.sidebar
+        s.Transparency = 1
+    end)
     return b
 end
 
