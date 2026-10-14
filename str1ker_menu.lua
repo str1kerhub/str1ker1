@@ -438,6 +438,14 @@ local TAB_ICONS = {
 }
 
 local function newTabBtn(name, label)
+local TAB_ICONS = {
+    Aimbot = "◎",
+    ESP    = "◉",
+    Config = "✦",
+    Info   = "✧",
+}
+
+local function newTabBtn(name, label)
     local b = Instance.new("TextButton")
     b.Name = name
     b.Size = UDim2.new(1, 0, 0, 36)
@@ -452,15 +460,10 @@ local function newTabBtn(name, label)
     b.Parent = sidebar
     corner(b, 7)
     local s = stroke(b, C.sidebar, 1, 1)
-    b.UIStroke = s
     table.insert(tabBtns, b)
     b.MouseButton1Click:Connect(function() switchTab(name) end)
-    b.MouseEnter:Connect(function()
-        if pages[name] and pages[name].Visible then return end
-        tw(b, 0.15, { BackgroundColor3 = C.surface2 })
-        s.Color = C.accent
-        s.Transparency = 0.6
-    end)
+    return b
+    end
     b.MouseLeave:Connect(function()
         if pages[name] and pages[name].Visible then return end
         tw(b, 0.15, { BackgroundColor3 = C.sidebar })
